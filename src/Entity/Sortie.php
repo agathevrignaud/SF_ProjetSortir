@@ -37,20 +37,22 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $etat;
 
-    #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'sorties')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $organisateur;
-
-    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'sorties')]
-    private $participantInscrit;
-
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'sortiesOrganisateur')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $organisateur;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'participant')]
+    private $sortiesParticipants;
+
+
+
     public function __construct()
     {
-        $this->participantInscrit = new ArrayCollection();
+        $this->sortiesParticipants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,41 +144,8 @@ class Sortie
         return $this;
     }
 
-    public function getOrganisateur(): ?Participant
-    {
-        return $this->organisateur;
-    }
 
-    public function setOrganisateur(?Participant $organisateur): self
-    {
-        $this->organisateur = $organisateur;
 
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Participant>
-     */
-    public function getParticipantInscrit(): Collection
-    {
-        return $this->participantInscrit;
-    }
-
-    public function addParticipantInscrit(Participant $participantInscrit): self
-    {
-        if (!$this->participantInscrit->contains($participantInscrit)) {
-            $this->participantInscrit[] = $participantInscrit;
-        }
-
-        return $this;
-    }
-
-    public function removeParticipantInscrit(Participant $participantInscrit): self
-    {
-        $this->participantInscrit->removeElement($participantInscrit);
-
-        return $this;
-    }
 
     public function getSite(): ?Site
     {
@@ -189,4 +158,47 @@ class Sortie
 
         return $this;
     }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getSortiesParticipants(): Collection
+    {
+        return $this->sortiesParticipants;
+    }
+
+    public function addSortiesParticipant(User $sortiesParticipant): self
+    {
+        if (!$this->sortiesParticipants->contains($sortiesParticipant)) {
+            $this->sortiesParticipants[] = $sortiesParticipant;
+            $sortiesParticipant->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortiesParticipant(User $sortiesParticipant): self
+    {
+        if ($this->sortiesParticipants->removeElement($sortiesParticipant)) {
+            $sortiesParticipant->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+
+
+
 }
