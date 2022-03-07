@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profil | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container">
+        <h3 class="text-center py-3">Mon Profil</h3>
+        <div class="row">
+            {# User profile picture #}
+            <div class="col-lg-3 py-auto my-auto text-center">
+                <img
+                    src="{{ asset('img/blank_profile_pic.png') }}"
+                    style="width:200px"
+                    alt="profile_picture"
+                />
+            </div>
+
+            {# User profile info #}
+            <div class="col-lg-9">
+
+                <form>
+                    <div class="form-group pb-2">
+                        <label for="username" class="col-lg-2">Pseudo :</label>
+                        <input type="text" id="username" name="username" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="firstname" class="col-lg-2">Prénom :</label>
+                        <input type="text" id="firstname" name="firstname" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="lastname" class="col-lg-2">Nom :</label>
+                        <input type="text" id="lastname" name="lastname" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="phoneNumber" class="col-lg-2">Téléphone :</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="email" class="col-lg-2">Email :</label>
+                        <input type="email" id="email" name="email" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="password" class="col-lg-2">Mot de passe :</label>
+                        <input type="password" id="password" name="password" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="passwordConfirm" class="col-lg-2">Confirmation :</label>
+                        <input type="text" id="passwordConfirm" name="passwordConfirm" value="" class="col-lg-4">
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="cities" class="col-lg-2">Ville de rattachement :</label>
+                        <select name="cities" id="cities" class="col-lg-4 py-auto">
+                            <option value="dog">Ville 1</option>
+                            <option value="cat">Ville 2</option>
+                            <option value="hamster">Ville 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group pb-2">
+                        <label for="profilePicture" class="col-lg-2">Ma photo :</label>
+                        <input type="file" id="profilePicture" name="profilePicture" value="Upload">
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <div class="form-group pt-4 pb-2 text-center">
+            <input type="submit" value="Enregistrer" class="btn btn-outline-primary col-lg-1"/>
+            <input type="submit" value="Annuler" class="btn btn-outline-danger col-lg-1"/>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
