@@ -1,21 +1,31 @@
 {% extends 'base.html.twig' %}
-{% block title %}Profil | Sortir.com{% endblock %}
+{% block title %}Gérer les villes | Sortir.com{% endblock %}
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
     <div class="container">
+        <h3 class="text-center py-3">Gérer les villes</h3>
+        <h5>Filtrer les villes</h5>
+            <form>
+                <div class="row">
+                    <div class="form-group py-3 ps-3">
+                        <label for="citySearch" class="align-middle">Le nom contient :</label>
+                        <input type="text" id="citySearch" class="align-middle">
+                        <button class="btn btn-primary btn-sm" type="submit">Rechercher</button>
+                    </div>
+                </div>
+            </form>
         <div class="row">
-            {# User profile picture #}
-            <div class="col-lg-3 p-2">
-                <img src="{{ asset('img/blank_profile_pic.png') }}" style="width:100px" alt="profile_picture"/>
-            </div>
-            {# User profile info #}
-            <div class="col-lg-9 p-2">
-                <p>{{ controller_name }}</p>
-
-            </div>
+            <table class="table table-hover">
+                <tbody>
+                <tr class="table-primary">
+                    <td class="table-primary text-center">Ville</td>
+                    <td class="table-primary text-center">Code postal</td>
+                    <td class="table-primary text-center">Actions</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-
     </div>
 
     {{ include('utils/footer.html.twig') }}
