@@ -11,7 +11,7 @@ class CitiesController extends AbstractController
     #[Route('/cities', name: 'app_cities')]
     public function index(): Response
     {
-        return $this->render('pages/campus.html.twig', [
+        return $this->render('pages/cities.html.twig', [
             'controller_name' => 'CitiesController',
         ]);
     }

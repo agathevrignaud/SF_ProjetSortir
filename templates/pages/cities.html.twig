@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
-{% block title %}Villes | Sortir.com{% endblock %}
+{% block title %}Profil | Sortir.com{% endblock %}
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
     <div class="container">
         <div class="row">
+            {# User profile picture #}
+            <div class="col-lg-3 p-2">
+                <img src="{{ asset('img/blank_profile_pic.png') }}" style="width:100px" alt="profile_picture"/>
+            </div>
+            {# User profile info #}
             <div class="col-lg-9 p-2">
                 <p>{{ controller_name }}</p>
+
             </div>
         </div>
 
