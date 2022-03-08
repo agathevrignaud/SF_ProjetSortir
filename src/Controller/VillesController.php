@@ -12,11 +12,9 @@ class VillesController extends AbstractController
     #[Route('/villes', name: 'villes')]
     public function listeVilles(VilleRepository $villeRepository): Response
     {
-        /*
         $villes = $villeRepository->findAll();
-        */
         return $this->render('pages/villes.html.twig', [
-            /*'villes' => $villes,*/
+            'villes' => $villes,
         ]);
     }
 
