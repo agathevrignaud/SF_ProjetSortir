@@ -169,6 +169,7 @@ fabric.properties
 /web/js/
 
 .idea/
+.env.local
 /node_modules/
 /public/build/
 npm-debug.log
