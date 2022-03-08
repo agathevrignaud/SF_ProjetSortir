@@ -21,9 +21,6 @@ class Sortie
     #[ORM\Column(type: 'datetime')]
     private $dateHeureDebut;
 
-    #[ORM\Column(type: 'time', nullable: true)]
-    private $durée;
-
     #[ORM\Column(type: 'date')]
     private $dateLimiteIncription;
 
@@ -47,6 +44,13 @@ class Sortie
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'participant')]
     private $sortiesParticipants;
+
+    #[ORM\Column(type: 'smallint')]
+    private $duree;
+
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $lieu;
 
 
 
@@ -80,18 +84,6 @@ class Sortie
     public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
-
-        return $this;
-    }
-
-    public function getDurée(): ?\DateTimeInterface
-    {
-        return $this->durée;
-    }
-
-    public function setDurée(?\DateTimeInterface $durée): self
-    {
-        $this->durée = $durée;
 
         return $this;
     }
@@ -194,6 +186,30 @@ class Sortie
         if ($this->sortiesParticipants->removeElement($sortiesParticipant)) {
             $sortiesParticipant->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(int $duree): self
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

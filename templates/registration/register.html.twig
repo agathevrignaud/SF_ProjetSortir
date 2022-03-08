@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Register{% endblock %}
-
+{% block title %}S'enregistrer | Sortir.com{% endblock %}
 {% block body %}
+    {{ include('utils/header.html.twig') }}
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
@@ -14,4 +13,6 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+    {{ include('utils/footer.html.twig') }}
 {% endblock %}
