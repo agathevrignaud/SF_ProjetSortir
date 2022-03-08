@@ -1,0 +1,8 @@
+.tableFixHead          { overflow: auto; height: 250px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+.tableFixHeadCity          { overflow: auto; height: 450px; }
+.tableFixHeadCity  thead th { position: sticky; top: 0; z-index: 1; }
+
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
