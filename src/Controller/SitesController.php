@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\SiteRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SitesController extends AbstractController
 {
     #[Route('/sites', name: 'sites')]
+
     public function listeSites(SiteRepository $siteRepository): Response
     {
         $sites = $siteRepository->findAll();
