@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Log in!{% endblock %}
-
+{% block title %}Se connecter | Sortir.com{% endblock %}
 {% block body %}
+    {{ include('utils/header.html.twig') }}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -39,4 +38,5 @@
         Sign in
     </button>
 </form>
+    {{ include('utils/footer.html.twig') }}
 {% endblock %}
