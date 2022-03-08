@@ -84,7 +84,7 @@
                         <td>@mdo</td>
                         <td>@mdo</td>
                         <td>
-                            <a href="{{ path('app_trip', {action : 'voir'}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                            <a href="{{ path('sorties', {action : 'voir'}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -96,9 +96,9 @@
                         <td>@mdo</td>
                         <td>@mdo</td>
                         <td>
-                            <a href="{{ path('app_trip', {action : 'editer'}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{{ path('app_trip', {action : 'publier'}) }}" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
-                            <a href="{{ path('app_trip', {action : 'annuler'}) }}" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
+                            <a href="" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                            <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
+                            <a href="" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -110,8 +110,8 @@
                         <td>@mdo</td>
                         <td>@mdo</td>
                         <td>
-                            <a href="{{ path('app_trip', {action : 'inscription'}) }}" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
-                            <a href="{{ path('app_trip', {action : 'desinscription'}) }}" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                            <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
+                            <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -158,7 +158,7 @@
             </table>
         </div>
         <div class=row">
-            <a class="btn btn-primary m-3 p-2" href="{{ path('app_trip', {action : 'create'}) }}">Créer une sortie</a>
+            <a class="btn btn-primary m-3 p-2" href="{{ path('sortie_creer')}}">Créer une sortie</a>
         </div>
     </div>
 
