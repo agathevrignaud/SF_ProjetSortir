@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class SitesController extends AbstractController
 {
     #[Route('/sites', name: 'sites')]
-
     public function listeSites(SiteRepository $siteRepository): Response
     {
         $sites = $siteRepository->findAll();
