@@ -168,12 +168,9 @@ fabric.properties
 /web/css/
 /web/js/
 
-/.idea
-/bin
 /node_modules/
 /public/build/
 npm-debug.log
 yarn-error.log
-
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony
