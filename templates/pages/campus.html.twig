@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Sites | Sortir.com{% endblock %}
+{% block title %}Gérer les sites | Sortir.com{% endblock %}
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
@@ -15,13 +15,17 @@
                 </div>
             </div>
         </form>
-        <div class="row">
+        <div class="tableFixHeadCity">
             <table class="table table-hover">
-                <tbody>
-                <tr class="table-primary">
-                    <td class="table-primary text-center">Ville</td>
-                    <td class="table-primary text-center">Actions</td>
+                <thead>
+                <tr class="table-primary text-center">
+                    <th scope="col" class="text-center">Ville</th>
+                    <th scope="col" class="text-center">Actions</th>
                 </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    </tr>
                 </tbody>
             </table>
         </div>

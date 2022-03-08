@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage | Sortir.com{% endblock %}
+
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container">
+        <h6 class="text-end py-3">
+            Date du jour : {{ "now"|date("d/m/Y") }}<br/>
+            Participant : Nom d'utilisateur
+        </h6>
+        <h5>Filtrer les sorties</h5>
+        <form class="row p-3">
+            <div class="col-lg-5 ps-3">
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <label for="cities" class="pe-2">Site :</label>
+                        <select name="cities" id="cities" class="py-auto">
+                            <option value="">Site 1</option>
+                            <option value="">Site 2</option>
+                            <option value="">Site 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <label for="citySearch" class="align-middle pe-2">Le nom contient :</label>
+                        <input type="text" id="citySearch" class="align-middle" placeholder="Nom de ville...">
+                    </div>
+                </div>
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <label for="citySearch" class="align-middle pe-2">Entre :</label>
+                        <input type="date" id="citySearch" class="align-middle">
+                        <label for="citySearch" class="align-middle"> et </label>
+                        <input type="date" id="citySearch" class="align-middle">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="form-group">
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties dont je suis l'organisateur/trice </label><br/>
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties auxquelles je suis inscrite </label><br/>
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties auxquelles je ne suis pas inscrite </label><br/>
+                    <input type="checkbox" id="citySearch" class="align-middle">
+                    <label for="" class="align-middle"> Sorties passées </label><br/>
+                </div>
+            </div>
+            <div class="col-lg-2 text-center">
+                <input type="submit" value="Rechercher" class="btn btn-primary p-4">
+            </div>
+        </form>
+        <div class="tableFixHead">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr class="table-primary text-center">
+                        {#
+                            Etat : pastille de couleur avec état dedans
+                            Inscrit : checkbox cochée ou non cochée
+                            Organisateur : Nom de la personne + clic vers profil possible
+                            Actions : Icônes
+                        #}
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>Inscrits/Places</th>
+                        <th>Etat</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>
+                            <a href="{{ path('app_trip', {action : 'voir'}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>
+                            <a href="{{ path('app_trip', {action : 'editer'}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ path('app_trip', {action : 'publier'}) }}" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
+                            <a href="{{ path('app_trip', {action : 'annuler'}) }}" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>
+                            <a href="{{ path('app_trip', {action : 'inscription'}) }}" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
+                            <a href="{{ path('app_trip', {action : 'desinscription'}) }}" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class=row">
+            <a class="btn btn-primary m-3 p-2" href="{{ path('app_trip', {action : 'create'}) }}">Créer une sortie</a>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
