@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -38,9 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 13, nullable: true)]
     private $telephone;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $mail;
-
     #[ORM\Column(type: 'boolean')]
     private $actif;
 
@@ -53,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private $site;
+
+    #[ORM\Column(type: 'string', length: 180)]
+    private $pseudo;
 
     public function __construct()
     {
@@ -166,18 +167,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(?string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
     public function getActif(): ?bool
     {
         return $this->actif;
@@ -264,5 +253,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername()
     {
         // TODO: Implement getUsername() method.
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
 }
