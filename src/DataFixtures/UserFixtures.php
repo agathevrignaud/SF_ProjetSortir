@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
             $user->setNom($faker->lastName);
             $user->setPrenom($faker->firstName);
             $user->setEmail($faker->email);
+            $user->setPseudo($faker->title);
             if($nbUsers===1)
                 $user->setRoles(['ROLE_ADMIN']);
             else
@@ -39,8 +40,7 @@ class UserFixtures extends Fixture
             $site = $this->getReference('site_' . $faker->numberBetween(1, 3));
             $user->setSite($site);
             $manager->persist($user);
-
-            $this->addReference('user_'. $nbUsers,$user);
+            $this->setReference('user_'. $nbUsers,$user);
         }
         $manager->flush();
     }
