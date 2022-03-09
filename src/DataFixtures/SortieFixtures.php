@@ -12,6 +12,7 @@ class SortieFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
         $faker = Faker\Factory::create('fr_FR');
 
         for($nbSorties = 1; $nbSorties <= 5; $nbSorties++) {
@@ -22,14 +23,17 @@ class SortieFixtures extends Fixture
             $sortie->setDuree($faker->numberBetween(1,5));
             $sortie->setInfoSortie($faker->realText(25));
             $sortie->setNbInscriptionsMax($faker->numberBetween(1,10));
-            $user = $this->getReference('user_' . $faker->numberBetween(1, 5));
-            $sortie->setOrganisateur($user);
+            //$user = setArticle($this->getReference(Article::class.'_0'));
+            $sortie->setOrganisateur($this->getReference('user_'. $faker->numberBetween(1, 5)));
             //$randomReferenceKey = sprintf('etat.%d', $this->$faker->numberBetween(1, 6));
             $etat = $this->getReference('etat.cree');
             $sortie->setEtat($etat);
             $lieu = $this->getReference('lieu_' . $faker->numberBetween(1, 5));
             $sortie->setLieu($lieu);
+            $site = $this->getReference('site_' . $faker->numberBetween(1,3) );
+            $sortie->setSite($site);
             $this->addReference('sortie_' . $nbSorties, $sortie);
+
             $manager->persist($sortie);
 
         }
