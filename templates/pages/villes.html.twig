@@ -11,7 +11,7 @@
                     <div class="form-group py-3 ps-3">
                         <label for="citySearch" class="align-middle">Le nom contient :</label>
                         <input type="text" id="citySearch" class="align-middle">
-                        <button class="btn btn-primary btn-sm" type="submit">Rechercher</button>
+                        <a href={{ path('villes_filtre') }} class="btn btn-primary btn-sm">Rechercher</a>
                     </div>
                 </div>
             </form>
@@ -24,12 +24,17 @@
                         <th scope="col" class="table-primary text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                    </tr>
+                <tbody class="text-center">
+                    {% for ville in villes %}
+                        <tr>
+                            <td>{{ ville.nom }}</td>
+                            <td>{{ ville.codePostal }}</td>
+                            <td>
+                                <a href="" title="Modifier la ville"><i class="bi bi-pencil-square" style="font-size: 1.25rem"></i></a>
+                                <a href="" title="Supprimer la ville"><i class="bi bi-x-square" style="font-size: 1.25rem"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

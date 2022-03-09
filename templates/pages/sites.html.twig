@@ -23,9 +23,16 @@
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
+                {% for site in sites %}
                     <tr>
+                        <td>{{ site.nom }}</td>
+                        <td>
+                            <a href="" title="Modifier le site"><i class="bi bi-pencil-square" style="font-size: 1.25rem"></i></a>
+                            <a href="" title="Supprimer le site"><i class="bi bi-x-square" style="font-size: 1.25rem"></i></a>
+                        </td>
                     </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

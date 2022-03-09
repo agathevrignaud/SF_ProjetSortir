@@ -18,20 +18,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
+                        <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                     </li>
                     {# Admin only : Villes Sites #}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_cities') }}">Villes</a>
+                        <a class="nav-link" href="{{ path('villes') }}">Villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_campus') }}">Sites</a>
+                        <a class="nav-link" href="{{ path('sites') }}">Sites</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_profile') }}">Mon Profil</a>
+                        <a class="nav-link" href="{{ path('profil_details', { id: 1 }) }}">Mon Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Se déconnecter</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
                 </ul>
             </div>
