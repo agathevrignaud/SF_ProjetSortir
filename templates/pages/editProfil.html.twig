@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}S'enregistrer | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+    <div class="container">
+        <h3 class="text-center py-3">Mon profil</h3>
+        <div class="row justify-content-center">
+            <div class="col">
+                {{ form_start(editProfilForm) }}
+                <div class="form-group pb-2 text-center">
+                    <label for="pseudo" class="col-lg-2">{{ form_label(editProfilForm.pseudo) }} * :</label>
+                    {{ form_widget(editProfilForm.pseudo) }}
+                </div>
+
+                <div class="form-group pb-2 text-center">
+                    <label for="prenom" class="col-lg-2">{{ form_label(editProfilForm.prenom) }} * :</label>
+                    {{ form_widget(editProfilForm.prenom) }}
+                </div>
+
+                <div class="form-group pb-2 text-center">
+                    <label for="nom" class="col-lg-2">{{ form_label(editProfilForm.nom) }} * :</label>
+                    {{ form_widget(editProfilForm.nom) }}
+                </div>
+
+                <div class="form-group pb-2 text-center">
+                    <label for="telephone" class="col-lg-2">{{ form_label(editProfilForm.telephone) }} * :</label>
+                    {{ form_widget(editProfilForm.telephone) }}
+                </div>
+
+                <div class="form-group pb-2 text-center">
+                    <label for="email" class="col-lg-2">{{ form_label(editProfilForm.email) }} * :</label>
+                    {{ form_widget(editProfilForm.email) }}
+                </div>
+
+                <div class="form-group pb-2 text-center">
+                    <label for="site" class="col-lg-2">Site de rattachement * :</label>
+                    {{ form_widget(editProfilForm.site) }}
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary p-3">Modifier mon profil</button>
+                    {{ form_end(editProfilForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
