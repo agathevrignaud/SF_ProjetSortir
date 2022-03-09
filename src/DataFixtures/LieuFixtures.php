@@ -23,7 +23,9 @@ class LieuFixtures extends Fixture
             $ville = $this->getReference('ville_' . $faker->numberBetween(1, 5));
             $lieu->setVille($ville);
             $manager->persist($lieu);
+            $this->addReference('lieu_'. $nbLieu,$lieu);
         }
+
         $manager->flush();
     }
 }
