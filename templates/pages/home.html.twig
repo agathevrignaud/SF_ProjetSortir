@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage | Sortir.com{% endblock %}
+{% block title %}Accueil | Sortir.com{% endblock %}
 
 {% block body %}
     {{ include('utils/header.html.twig') }}
@@ -15,12 +15,10 @@
             <div class="col-lg-5 ps-3">
                 <div class="row pb-2">
                     <div class="form-group">
-                        <label for="cities" class="pe-2">Site :</label>
-                        <select name="cities" id="cities" class="py-auto">
-                            <option value="">Site 1</option>
-                            <option value="">Site 2</option>
-                            <option value="">Site 3</option>
-                        </select>
+                        <div class="form-group">
+                            <label for="site" class="col-lg-1">Site :</label>
+                            {{ form_widget(sortieFilterForm.site) }}
+                        </div>
                     </div>
                 </div>
                 <div class="row pb-2">
@@ -58,12 +56,6 @@
             <table class="table table-bordered table-striped mb-0">
                 <thead>
                     <tr class="table-primary text-center">
-                        {#
-                            Etat : pastille de couleur avec état dedans
-                            Inscrit : checkbox cochée ou non cochée
-                            Organisateur : Nom de la personne + clic vers profil possible
-                            Actions : Icônes
-                        #}
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
@@ -74,86 +66,47 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
+                {#
+                    Organisateur : Nom de la personne + clic vers profil possible
+                    Actions : Icônes
+                #}
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>
-                            <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>
-                            <a href="" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
-                            <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
-                            <a href="" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>
-                            <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
-                            <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
+                    {% for sortie in sorties %}
+                        <tr class="text-center">
+                            <td>{{ sortie.nom }}</td>
+                            <td>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</td>
+                            <td>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</td>
+                            <td>{{ sortie.sortiesParticipants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                            <td>
+                                <span class="badge bg-{{ etatLabels[sortie.etat.libelle] }}">{{ sortie.etat.libelle }}</span>
+                            </td>
+                            <td>{% if user in sortie.sortiesParticipants %} <i class="bi bi-x"></i> {% endif %}</td>
+                            <td>
+                                <a href="{{ path("profil_details", {id: sortie.organisateur.id}) }}" class="link-dark">
+                                    {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|slice(0,1) }}.
+                                </a>
+                            </td>
+                            <td>
+                                {% if sortie.etat.libelle == 'Créée' %}
+                                    <a href="" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
+                                {% elseif sortie.etat.libelle == 'Ouverte' %}
+                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
+                                    <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                {% elseif sortie.etat.libelle == 'Clôturée' %}
+                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                {% elseif sortie.etat.libelle == 'En cours' %}
+                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% elseif sortie.etat.libelle == 'Passée' %}
+                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% elseif sortie.etat.libelle == 'Annulée' %}
+                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

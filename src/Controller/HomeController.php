@@ -3,33 +3,46 @@
 namespace App\Controller;
 
 use App\Repository\SortieRepository;
+use App\Entity\Sortie;
+use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home')]
-    public function listeSorties(SortieRepository $sortieRepository): Response
+    public function listeSorties(Request $request, SortieRepository $sortieRepository): Response
     {
-
         $user = $this->getUser();
         $user->getRoles();
-        $lesSorties = $sortieRepository->findAll();
+
+        $sortie = new Sortie();
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
+        $etatLabels = ['Créée' => 'primary', 'Ouverte' => 'info', 'Clôturée' => 'warning', 'En cours' => 'success', 'Passée' => 'secondary', 'Annulée' => 'danger' ];
+
+        $sorties = $sortieRepository->findAll();
         return $this->render('pages/home.html.twig', [
             "user" => $user,
-            'sorties' => $lesSorties
+            'sorties' => $sorties,
+            'etatLabels' => $etatLabels,
+            'sortieFilterForm' => $form->createView(),
         ]);
     }
 
     #[Route('/home/filtre', name: 'home_filtre')]
-    public function filtreSorties(SortieRepository $sortieRepository): Response
+    public function filtreSorties(Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
-        #plus tard
+
+
         $lesSorties = $sortieRepository->findBy([], []);
         return $this->render('pages/home.html.twig', [
-            'sorties' => $lesSorties
+            'sorties' => $lesSorties,
+
         ]);
     }
 
