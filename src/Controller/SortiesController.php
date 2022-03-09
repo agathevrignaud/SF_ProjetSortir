@@ -11,6 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortiesController extends AbstractController
 {
+    #[Route('/sortie/{id}', name: 'sortie_details')]
+    public function afficherSortie(int $id, SortieRepository $sortieRepository): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $sortie = $sortieRepository->find($id);
+        return $this->render('pages/sortie.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
+
     #[Route('/sortie/{id}', name: 'sortie_modifier')]
     public function modifierSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager): Response
     {
@@ -20,20 +31,17 @@ class SortiesController extends AbstractController
 
         #récup les infos du form + persist + flush
         return $this->render('pages/sortie.html.twig', [
-            'sortie' => $sortie,
-            'estValide' => true
-        ]);
-    }
-
-    #[Route('/sortie/{id}', name: 'sortie_details')]
-    public function detailsSortie(int $id, SortieRepository $sortieRepository): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        $sortie = $sortieRepository->find($id);
-        return $this->render('pages/sortie.html.twig', [
             'sortie' => $sortie
         ]);
     }
+
+    #[Route('/sortie', name: 'sortie_creer')]
+    public function creerSortie(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('pages/sortie.html.twig', [
+        ]);
+    }
+
 
 }

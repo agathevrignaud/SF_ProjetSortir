@@ -66,17 +66,13 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                {#
-                    Organisateur : Nom de la personne + clic vers profil possible
-                    Actions : Icônes
-                #}
                 <tbody>
                     {% for sortie in sorties %}
                         <tr class="text-center">
                             <td>{{ sortie.nom }}</td>
                             <td>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</td>
                             <td>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</td>
-                            <td>{{ sortie.sortiesParticipants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                            <td>{{ sortie.sortiesParticipants|length }} / {{ sortie.nbInscriptionsMax }}</td>
                             <td>
                                 <span class="badge bg-{{ etatLabels[sortie.etat.libelle] }}">{{ sortie.etat.libelle }}</span>
                             </td>
@@ -88,21 +84,26 @@
                             </td>
                             <td>
                                 {% if sortie.etat.libelle == 'Créée' %}
-                                    <a href="" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
                                     <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
                                 {% elseif sortie.etat.libelle == 'Ouverte' %}
-                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
-                                    <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
-                                    <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    {% if user in sortie.sortiesParticipants %}
+                                        <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    {% else %}
+                                        <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
+                                    {% endif %}
                                 {% elseif sortie.etat.libelle == 'Clôturée' %}
-                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
-                                    <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    {% if user in sortie.sortiesParticipants %}
+                                        <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    {% endif %}
                                 {% elseif sortie.etat.libelle == 'En cours' %}
-                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                 {% elseif sortie.etat.libelle == 'Passée' %}
-                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                 {% elseif sortie.etat.libelle == 'Annulée' %}
-                                    <a href="" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                 {% endif %}
                             </td>
                         </tr>
@@ -111,7 +112,7 @@
             </table>
         </div>
         <div class=row">
-            <a class="btn btn-primary m-3 p-2" href="">Créer une sortie</a>
+            <a class="btn btn-primary m-3 p-2" href="{{ path('sortie_creer') }}">Créer une sortie</a>
         </div>
     </div>
 
