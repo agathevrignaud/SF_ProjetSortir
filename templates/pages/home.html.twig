@@ -8,7 +8,7 @@
     <div class="container">
         <h6 class="text-end py-3">
             Date du jour : {{ "now"|date("d/m/Y") }}<br/>
-            Participant : Nom d'utilisateur
+            Participant : {{ user.prenom }} {{ user.nom|slice(0,1) }}.
         </h6>
         <h5>Filtrer les sorties</h5>
         <form class="row p-3">
