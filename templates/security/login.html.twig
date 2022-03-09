@@ -49,6 +49,7 @@
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <button class="btn btn-lg btn-primary" type="submit">Se Connecter</button>
+                        <a href="{{ path('app_register') }}" class="btn btn-lg btn-outline-primary" type="submit">Créer un compte</a>
                     </form>
                 </div>
             </div>
