@@ -13,8 +13,12 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'home')]
     public function listeSorties(SortieRepository $sortieRepository): Response
     {
+
+        $user = $this->getUser();
+        $user->getRoles();
         $lesSorties = $sortieRepository->findAll();
         return $this->render('pages/home.html.twig', [
+            "user" => $user,
             'sorties' => $lesSorties
         ]);
     }
