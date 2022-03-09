@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer les sites | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container">
+        <h3 class="text-center py-3">Gérer les sites</h3>
+        <h5>Filtrer les sites</h5>
+        <form>
+            <div class="row">
+                <div class="form-group py-3 ps-3">
+                    <label for="citySearch" class="align-middle">Le nom contient :</label>
+                    <input type="text" id="citySearch" class="align-middle">
+                    <button class="btn btn-primary btn-sm" type="submit">Rechercher</button>
+                </div>
+            </div>
+        </form>
+        <div class="tableFixHeadCity">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr class="table-primary text-center">
+                    <th scope="col" class="text-center">Ville</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% for site in sites %}
+                    <tr>
+                        <td>{{ site.nom }}</td>
+                        <td>
+                            <a href="" title="Modifier le site"><i class="bi bi-pencil-square" style="font-size: 1.25rem"></i></a>
+                            <a href="" title="Supprimer le site"><i class="bi bi-x-square" style="font-size: 1.25rem"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}

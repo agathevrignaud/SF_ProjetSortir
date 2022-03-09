@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | Sortir.com{% endblock %}
+
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container">
+        <h6 class="text-end py-3">
+            Date du jour : {{ "now"|date("d/m/Y") }}<br/>
+            Participant : {{ user.prenom }} {{ user.nom|slice(0,1) }}.
+        </h6>
+        <h5>Filtrer les sorties</h5>
+        <form class="row p-3">
+            <div class="col-lg-5 ps-3">
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="site" class="col-lg-1">Site :</label>
+                            {{ form_widget(sortieFilterForm.site) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <label for="citySearch" class="align-middle pe-2">Le nom contient :</label>
+                        <input type="text" id="citySearch" class="align-middle" placeholder="Nom de ville...">
+                    </div>
+                </div>
+                <div class="row pb-2">
+                    <div class="form-group">
+                        <label for="citySearch" class="align-middle pe-2">Entre :</label>
+                        <input type="date" id="citySearch" class="align-middle">
+                        <label for="citySearch" class="align-middle"> et </label>
+                        <input type="date" id="citySearch" class="align-middle">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="form-group">
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties dont je suis l'organisateur/trice </label><br/>
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties auxquelles je suis inscrite </label><br/>
+                    <input type="checkbox" id="" class="align-middle">
+                    <label for="" class="align-middle"> Sorties auxquelles je ne suis pas inscrite </label><br/>
+                    <input type="checkbox" id="citySearch" class="align-middle">
+                    <label for="" class="align-middle"> Sorties passées </label><br/>
+                </div>
+            </div>
+            <div class="col-lg-2 text-center">
+                <input type="submit" value="Rechercher" class="btn btn-primary p-4">
+            </div>
+        </form>
+        <div class="tableFixHead">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr class="table-primary text-center">
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>Inscrits/Places</th>
+                        <th>Etat</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sortie in sorties %}
+                        <tr class="text-center">
+                            <td>{{ sortie.nom }}</td>
+                            <td>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</td>
+                            <td>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</td>
+                            <td>{{ sortie.sortiesParticipants|length }} / {{ sortie.nbInscriptionsMax }}</td>
+                            <td>
+                                <span class="badge bg-{{ etatLabels[sortie.etat.libelle] }}">{{ sortie.etat.libelle }}</span>
+                            </td>
+                            <td>{% if user in sortie.sortiesParticipants %} <i class="bi bi-x"></i> {% endif %}</td>
+                            <td>
+                                <a href="{{ path("profil_details", {id: sortie.organisateur.id}) }}" class="link-dark">
+                                    {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|slice(0,1) }}.
+                                </a>
+                            </td>
+                            <td>
+                                {% if sortie.etat.libelle == 'Créée' %}
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
+                                {% elseif sortie.etat.libelle == 'Ouverte' %}
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    {% if user in sortie.sortiesParticipants %}
+                                        <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    {% else %}
+                                        <a href="" title="S'inscrire"><i class="bi bi-check-circle"></i></a>
+                                    {% endif %}
+                                {% elseif sortie.etat.libelle == 'Clôturée' %}
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                    {% if user in sortie.sortiesParticipants %}
+                                        <a href="" title="Se désister"><i class="bi bi-dash-circle"></i></a>
+                                    {% endif %}
+                                {% elseif sortie.etat.libelle == 'En cours' %}
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% elseif sortie.etat.libelle == 'Passée' %}
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% elseif sortie.etat.libelle == 'Annulée' %}
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class=row">
+            <a class="btn btn-primary m-3 p-2" href="{{ path('sortie_creer') }}">Créer une sortie</a>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
