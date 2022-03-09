@@ -6,7 +6,6 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\EditProfilType;
-use App\Form\EditPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -47,10 +46,8 @@ class UserController extends AbstractController implements PasswordUpgraderInter
 
 
     #[Route('/profil/modifier/{id}', name: 'profil_modifier')]
-    //#[ParamConverter("profil", class: "App\Entity\User")]
-    public function modifierProfil(Request $request,EntityManagerInterface $entityManager, User $user)
+    public function modifierProfil(Request $request,EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher, User $user)
     {
-
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
 
@@ -74,13 +71,13 @@ class UserController extends AbstractController implements PasswordUpgraderInter
 
             $this->addFlash('success', 'Profil modifié !');
             return $this->redirectToRoute('profil_details',['id'=> $user->getId() ]);
-
         }
 
         return $this->render('pages/editProfil.html.twig', [
             'editProfilForm' => $form->createView()
         ]);
     }
+
     #[Route('/profil/modifier/motdepasse/{id}', name: 'motdepasse_modifier')]
     public function modifierPassword(Request $request,EntityManagerInterface $entityManager, User $user){
 
