@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
+<<<<<<< HEAD
 {% block title %}Modifier mon profil | Sortir.com{% endblock %}
+=======
+{% block title %}S'enregistrer | Sortir.com{% endblock %}
+>>>>>>>  formulaire edit profil + formulaire edit password en cours , problème pour persit donnée
 {% block body %}
     {{ include('utils/header.html.twig') }}
     <div class="container">
@@ -46,11 +50,18 @@
                     <button type="submit" class="btn btn-primary p-3">Modifier mon profil</button>
                     {{ form_end(editProfilForm) }}
                 </div>
+<<<<<<< HEAD
                 <div class="form-group text-center">
                     <a class="nav-link" href="{{ path('motdepasse_modifier', { id: 1 }) }}">Modifier mon mot de passe</a>
                 </div>
             </div>
         </div>
     </div>
+=======
+            </div>
+        </div>
+    </div>
+
+>>>>>>>  formulaire edit profil + formulaire edit password en cours , problème pour persit donnée
     {{ include('utils/footer.html.twig') }}
 {% endblock %}

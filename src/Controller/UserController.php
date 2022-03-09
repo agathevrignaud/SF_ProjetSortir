@@ -49,13 +49,12 @@ class UserController extends AbstractController implements PasswordUpgraderInter
     #[Route('/profil/modifier/{id}', name: 'profil_modifier')]
     public function modifierProfil(Request $request,EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher, User $user)
     {
-
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('photo')->getData();
-            if($image !=null){
+            if ($image != null) {
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
                 $image->move(
                     $this->getParameter('images_directory'),
@@ -64,37 +63,20 @@ class UserController extends AbstractController implements PasswordUpgraderInter
                 $user->setPhoto($fichier);
                 $entityManager->persist($user);
                 $entityManager->flush();
-            }
-            else{
-                $entityManager->persist($user);
-                $entityManager->flush();
-            }
-
-            $image = $form->get('photo')->getData();
-            if($image !=null){
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                $user->setPhoto($fichier);
-                $entityManager->persist($user);
-                $entityManager->flush();
-            }
-            else{
+            } else {
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
 
             $this->addFlash('success', 'Profil modifié !');
-            return $this->redirectToRoute('profil_details',['id'=> $user->getId() ]);
-
+            return $this->redirectToRoute('profil_details', ['id' => $user->getId()]);
         }
 
         return $this->render('pages/editProfil.html.twig', [
             'editProfilForm' => $form->createView()
         ]);
     }
+
     #[Route('/profil/modifier/motdepasse/{id}', name: 'motdepasse_modifier')]
     public function modifierPassword(Request $request,EntityManagerInterface $entityManager, User $user){
 
