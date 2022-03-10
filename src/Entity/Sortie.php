@@ -52,11 +52,9 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $lieu;
 
-<<<<<<< HEAD
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $motifAnnulation;
-=======
->>>>>>> Added sign up / bail out fonctions on trips page
+
 
     public function __construct()
     {

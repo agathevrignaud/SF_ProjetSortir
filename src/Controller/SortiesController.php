@@ -128,6 +128,27 @@ class SortiesController extends AbstractController
         ]);
     }
 
+    #[Route('/sortie/{action}/{id}/{userId}', name: 'sortie_inscription_desistement')]
+    public function inscription(int $id, int $userId, string $action, SortieRepository $sortieRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $sortie = $sortieRepository->find($id);
+        $user = $userRepository->find($userId);
+        switch ($action) {
+            case 'inscription':
+                $sortie->addSortiesParticipant($user);
+                break;
+            case 'desistement':
+                $sortie->removeSortiesParticipant($user);
+                break;
+        }
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+
     #[Route('/sortie/{id}/{nouvelEtat}', name: 'sortie_etat')]
     public function updateEtatSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
