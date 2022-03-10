@@ -37,8 +37,6 @@ class HomeController extends AbstractController
     #[Route('/home/filtre', name: 'home_filtre')]
     public function filtreSorties(Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
-
-
         $lesSorties = $sortieRepository->findBy([], []);
         return $this->render('pages/home.html.twig', [
             'sorties' => $lesSorties,
@@ -46,9 +44,4 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/home/creerSortie', name: 'sortie_creer')]
-    public function creerSortie(EntityManagerInterface $entityManager): Response
-    {
-        return $this->render('pages/sortie.html.twig');
-    }
 }

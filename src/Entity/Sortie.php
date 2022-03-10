@@ -53,7 +53,6 @@ class Sortie
     private $lieu;
 
 
-
     public function __construct()
     {
         $this->sortiesParticipants = new ArrayCollection();
@@ -186,7 +185,6 @@ class Sortie
         if ($this->sortiesParticipants->removeElement($sortiesParticipant)) {
             $sortiesParticipant->removeParticipant($this);
         }
-
         return $this;
     }
 

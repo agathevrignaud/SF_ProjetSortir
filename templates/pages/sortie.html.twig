@@ -77,7 +77,7 @@
                         id="tripDateLimit"
                         name="tripDateLimit"
                         class="col-lg-7"
-                        value="{% if sortie is defined %} {{ sortie.dateLimiteIncription }} {% endif %}"
+                        value="{% if sortie is defined %} {{ sortie.dateLimiteIncription|date("d/m/Y")  }} {% endif %}"
                     >
                 {% else %}
                     <label class="col-lg-7">{{ sortie.dateLimiteIncription|date("d/m/Y") }}</label>
@@ -177,7 +177,7 @@
         {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
             <h6 class="pb-1">Liste des participants inscrits :</h6>
 
-            <div class="tableFixHead" style="height:125px;width: 35%">
+            <div class="tableFixHead" style="height:125px;width: 45%">
                 <table class="table table-bordered table-striped mb-0" >
                     <thead>
                     <tr class="table-primary text-center">
