@@ -24,12 +24,14 @@ class UserController extends AbstractController implements PasswordUpgraderInter
         $userRepository = $entityManager->getRepository(User::class);
 
         $profil = $userRepository->find($id);
+        $siteName = $profil->getSite()->getNom();
 
         if(empty($profil)) {
             throw $this->createNotFoundException('utilisateur introuvable');
         }
         return $this->render('pages/profil.html.twig', [
-            'profil' => $profil
+            'profil' => $profil,
+            'site' =>$siteName
         ]);
 
     }

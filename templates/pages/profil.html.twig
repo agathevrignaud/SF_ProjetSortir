@@ -4,7 +4,7 @@
     {{ include('utils/header.html.twig') }}
 
     <div class="container" style="min-height: 80vh">
-        <h3 class="text-center py-3">Mon Profil</h3>
+        <h3 class="text-center py-3">{{ profil.pseudo }}</h3>
         <div class="row">
             {# User profile picture #}
             <div class="col-lg-3 py-auto my-auto text-center">
@@ -18,30 +18,26 @@
             {# User profile info #}
             <div class="col-lg-9">
                 <form>
-                    <div class="group pb-2">
-                        <label for="username" class="col-lg-2">Pseudo :</label>
-                        <p id="username" name="username" class="col-lg-4" >{{ app.user.pseudo }}</p>
+                    <div class="form-group pb-2">
+                        <p id="username" name="username" class="col-lg-4" >Pseudo : {{ profil.pseudo }}</p>
                     </div>
                     <div class="form-group pb-2">
-                        <label for="firstname" class="col-lg-2">Prénom :</label>
-                        <p id="firstname" name="firstname" class="col-lg-4" > {{ app.user.prenom }}</p>
+                        <p id="firstname" name="firstname" class="col-lg-4" >Prénom : {{ profil.prenom }}</p>
                     </div>
                     <div class="form-group pb-2">
-                        <label for="lastname" class="col-lg-2">Nom :</label>
-                        <p id="lastname" name="lastname" class="col-lg-4">{{ app.user.nom }} </p>
+                        <p id="lastname" name="lastname" class="col-lg-4">Nom : {{ profil.nom }} </p>
                     </div>
                     <div class="form-group pb-2">
-                        <label for="phoneNumber" class="col-lg-2">Téléphone :</label>
-                        <p id="phoneNumber" name="phoneNumber" >{{ app.user.telephone }}</p>
+                        <p id="phoneNumber" name="phoneNumber" >Téléphone : {{ profil.telephone }}</p>
                     </div>
                     <div class="form-group pb-2">
-                        <label for="email" class="col-lg-2">Email :</label>
-                        <p id="email" name="email"  >{{ app.user.email }} </p>
+                        <p id="email" name="email"  >Email : {{ profil.email }} </p>
                     </div>
-
+                    {% if profil.site is not empty %}
                     <div class="form-group pb-2">
-                        <label for="cities" class="col-lg-2">Site de rattachement :</label>
+                        <p id="cities" name="cities"  >Site de rattachement : {{ profil.site.nom }} </p>
                     </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
