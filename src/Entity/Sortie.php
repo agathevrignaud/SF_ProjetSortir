@@ -55,7 +55,6 @@ class Sortie
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $motifAnnulation;
 
-
     public function __construct()
     {
         $this->sortiesParticipants = new ArrayCollection();
