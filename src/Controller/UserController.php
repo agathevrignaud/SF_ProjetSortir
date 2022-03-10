@@ -47,7 +47,7 @@ class UserController extends AbstractController implements PasswordUpgraderInter
 
 
     #[Route('/profil/modifier/{id}', name: 'profil_modifier')]
-    public function modifierProfil(Request $request,EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher, User $user)
+    public function modifierProfil(Request $request,EntityManagerInterface $entityManager, User $user)
     {
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
@@ -67,7 +67,6 @@ class UserController extends AbstractController implements PasswordUpgraderInter
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
-
             $this->addFlash('success', 'Profil modifié !');
             return $this->redirectToRoute('profil_details', ['id' => $user->getId()]);
         }
