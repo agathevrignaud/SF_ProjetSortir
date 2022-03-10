@@ -11,7 +11,7 @@
                     <div class="form-group py-3 ps-3">
                         <label for="citySearch" class="align-middle">Le nom contient :</label>
                         <input type="text" id="citySearch" class="align-middle">
-                        <a href={{ path('villes_filtre') }} class="btn btn-primary btn-sm">Rechercher</a>
+                        <a href="{{ path('villes_filtre') }}" class="btn btn-primary btn-sm">Rechercher</a>
                     </div>
                 </div>
             </form>
@@ -37,6 +37,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class=row">
+            <a class="btn btn-primary m-3 p-2" href="{{ path('villes_ajouter') }}">Ajouter une ville</a>
         </div>
     </div>
 
