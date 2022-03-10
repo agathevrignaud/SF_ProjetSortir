@@ -6,10 +6,21 @@
     {{ include('utils/header.html.twig') }}
 
     <div class="container">
-        <h6 class="text-end py-3">
-            Date du jour : {{ "now"|date("d/m/Y") }}<br/>
-            Participant : {{ user.prenom }} {{ user.nom|slice(0,1) }}.
-        </h6>
+        <div class="row">
+            <div class="col my-auto mx-auto text-center">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success p-2 my-3">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-2">
+                <h6 class="text-end py-3">
+                    Date du jour : {{ "now"|date("d/m/Y") }}<br/>
+                    Participant : {{ user.prenom }} {{ user.nom|slice(0,1) }}.
+                </h6>
+            </div>
+        </div>
         <h5>Filtrer les sorties</h5>
         <form class="row p-3">
             <div class="col-lg-5 ps-3">
@@ -68,7 +79,8 @@
                 </thead>
                 <tbody>
                     {% for sortie in sorties %}
-                        <tr class="text-center">
+                        {% if (sortie.etat.libelle == 'Créée' and sortie.organisateur.id == user.id) or sortie.etat.libelle in ['Ouverte','Clôturée','En cours','Passée','Annulée'] %}
+                            <tr class="text-center">
                             <td>{{ sortie.nom }}</td>
                             <td>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</td>
                             <td>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</td>
@@ -85,7 +97,7 @@
                             <td>
                                 {% if sortie.etat.libelle == 'Créée' %}
                                     <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
+                                    <a href="{{ path('sortie_etat', {id: sortie.id, nouvelEtat: 'Ouverte'}) }}" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
                                 {% elseif sortie.etat.libelle == 'Ouverte' %}
                                     <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                     {% if user in sortie.sortiesParticipants %}
@@ -98,15 +110,12 @@
                                     {% if user in sortie.sortiesParticipants %}
                                         <a href="{{ path('sortie_inscription_desistement', {id: sortie.id, userId: user.id, action: 'desistement'}) }}" title="Se désister"><i class="bi bi-dash-circle"></i></a>
                                     {% endif %}
-                                {% elseif sortie.etat.libelle == 'En cours' %}
-                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
-                                {% elseif sortie.etat.libelle == 'Passée' %}
-                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
-                                {% elseif sortie.etat.libelle == 'Annulée' %}
+                                {% elseif  sortie.etat.libelle in ['En cours','Passée','Annulée']   %}
                                     <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                 {% endif %}
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
