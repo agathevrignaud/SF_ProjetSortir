@@ -161,10 +161,38 @@
                 </div>
 
                 {# Longitude #}
+<<<<<<< HEAD
                 <div class="form-group pb-2">
                     <label for="longitude" class="col-lg-4">Longitude :</label>
                     <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
+=======
+                <label for="longitude" class="col-lg-4 pb-3">Longitude :</label>
+                <input type="text" id="longitude" name="longitude" class="col-lg-7">
+            </div>
+        </form>
+
+        {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
+            <h6 class="pb-1">Liste des participants inscrits :</h6>
+
+            <div class="tableFixHead" style="height:125px;width: 45%">
+                <table class="table table-bordered table-striped mb-0" >
+                    <thead>
+                    <tr class="table-primary text-center">
+                        <th scope="col" class="text-center">Pseudo</th>
+                        <th scope="col" class="text-center">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    {% for participant in sortie.sortiesParticipants %}
+                        <tr>
+                            <td>{{ participant.pseudo }}</td>
+                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+>>>>>>> Added sign up / bail out fonctions on trips page
             </div>
 
             {# Affichage des participants #}

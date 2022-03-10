@@ -146,12 +146,14 @@ class SortiesController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+
     #[Route('/sortie/{action}/{id}/{userId}', name: 'sortie_inscription_desistement')]
     public function inscription(int $id, int $userId, string $action, SortieRepository $sortieRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $sortie = $sortieRepository->find($id);
         $user = $userRepository->find($userId);
+
         $flashMesssage = '';
         switch ($action) {
             case 'inscription':
@@ -165,6 +167,7 @@ class SortiesController extends AbstractController
         }
         $entityManager->persist($sortie);
         $entityManager->flush();
+
 
         $this->addFlash(
             'notice',
