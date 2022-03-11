@@ -11,6 +11,13 @@
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
+    {# Flash Message #}
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success text-center p-2 my-1 mx-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="container" style="min-height: 80vh">
         {% if sortie is defined %}
             <h3 class="text-center py-3"> Sortie N°{{ sortie.id }} | {{ sortie.nom }}</h3>
@@ -27,7 +34,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Ajouter</button>
@@ -37,185 +43,181 @@
             </div>
         </div>
 
-
-
-        <form class="row">
+        <div class="row">
+            {# Col 1 #}
             <div class="col-lg-6">
+            {{ form_start(sortieForm) }}
 
                 {# Nom #}
-                <label for="tripName" class="col-lg-4 pb-3">Nom de la sortie :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                    <input
-                        type="text"
-                        id="tripName"
-                        name="tripName"
-                        class="col-lg-7"
-                        value="{% if sortie is defined %} {{ sortie.nom }} {% endif %}"
-                    >
-                {% else %}
-                    <label class="col-lg-7">{{ sortie.nom }}</label>
-                {% endif %}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
 
                 {# Date & Heure de début #}
-                <label for="tripDate" class="col-lg-4 pb-3">Date et heure de la sortie :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                    <input
-                        type="datetime-local"
-                        id="tripDate" name="tripDate"
-                        class="col-lg-7"
-                        value="{% if sortie is defined %} {{ sortie.nom }} {% endif %}"
-                    >
-                {% else %}
-                    <label class="col-lg-7">{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</label>
-                {% endif %}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
 
                 {# Date limite d'inscription #}
-                <label for="tripDateLimit" class="col-lg-4 pb-3">Date limite d'inscription :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                    <input
-                        type="date"
-                        id="tripDateLimit"
-                        name="tripDateLimit"
-                        class="col-lg-7"
-                        value="{% if sortie is defined %} {{ sortie.dateLimiteIncription|date("d/m/Y")  }} {% endif %}"
-                    >
-                {% else %}
-                    <label class="col-lg-7">{{ sortie.dateLimiteIncription|date("d/m/Y") }}</label>
-                {% endif %}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
 
                 {# Nombre de participants #}
-                <label for="tripPlaces" class="col-lg-4 pb-3">Nombre de participants :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                    <input
-                        type="text"
-                        id="tripPlaces"
-                        name="tripPlaces"
-                        class="col-lg-7"
-                        value="{% if sortie is defined %} {{ sortie.nbInscriptionsMax }} {% endif %}"
-                    >
-                {% else %}
-                    <label class="col-lg-7">{{ sortie.nbInscriptionsMax }}</label>
-                {% endif %}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
 
                 {# Durée #}
-                <label for="tripDuration" class="col-lg-4 pb-3">Durée :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                <input
-                        type="number"
-                        id="tripDuration"
-                        name="tripDuration"
-                        class="col-lg-2 px-2"
-                        step="5"
-                        min="5"
-                        max="300"
-                        value="{% if sortie is defined %} {{ sortie.duree }} {% endif %}"
-                >
-                {% else %}
-                    <label class="col-lg-auto">{{ sortie.duree }}</label>
-                {% endif %}
-                <label for="tripDuration" class="col-lg-5 pb-3">minutes</label>
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
+                    {% endif %}
+                    minutes
+                </div>
 
                 {# Description & Infos #}
-                <label for="tripDesc" class="col-lg-4 pb-3 align-top">Description et infos :</label>
-                {% if sortie is not defined or (sortie is defined and sortie.etat.libelle == 'Créée')  %}
-                    <textarea id="tripDesc" name="tripDesc" class="col-lg-7">
-                        {% if sortie is defined %} {{ sortie.infoSortie }} {% endif %}
-                    </textarea>
-                {% else %}
-                    <textarea id="tripDesc" name="tripDesc" class="col-lg-7" rows="2" {% if sortie is defined %} disabled {% endif %}>
-                        {% if sortie is defined %} {{ sortie.infoSortie }} {% endif %}
-                    </textarea>
-                {% endif %}
-            </div>
-            <div class="col-lg-6 pt-2">
-                {# Site organisateur #}
-                <label class="col-lg-4 pb-3">Site organisateur :</label>
-                <label class="col-lg-7">
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
                     {% if sortie is defined %}
-                        {{ sortie.site.nom }}
+                        {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
                     {% else %}
-                        {{ app.user.site.nom }}
+                        {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
-                </label>
+                </div>
+
+            </div>
+            {# Col 2 #}
+            <div class="col-lg-6">
+                {# Site organisateur #}
+                <div class="form-group pb-2">
+                    <label class="col-lg-4">Site organisateur :</label>
+                    <label class="col-lg-7">
+                        {% if sortie is defined %}
+                            {{ sortie.site.nom }}
+                        {% else %}
+                            {{ app.user.site.nom }}
+                        {% endif %}
+                    </label>
+                </div>
 
                 {# Villes #}
-                <label for="cities" class="col-lg-4 pb-3">Ville :</label>
-                <select name="cities" id="cities" class="col-lg-7 py-auto">
-                    <option value="">Ville 1</option>
-                    <option value="">Ville 2</option>
-                    <option value="">Ville 3</option>
-                </select>
+                <div class="form-group pb-2">
+                    <label for="cities" class="col-lg-4">Ville :</label>
+                    <select name="cities" id="cities" class="col-lg-6 py-auto align-middle">
+                        <option value="">Choisir une ville...</option>
+                        {% for ville in villes %}
+                            <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
                 {# Lieux #}
-                <label for="cities" class="col-lg-4 pb-3 a  align-middle">Lieu :</label>
-                <select name="cities" id="cities" class="col-lg-7 py-auto align-middle">
-                    <option value="">Lieu 1</option>
-                    <option value="">Lieu 2</option>
-                    <option value="">Lieu 3</option>
-                </select>
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="bi bi-plus-circle-fill"></i>
-                </button>
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.lieu, "Lieu :", {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-lg-6 py-auto align-middle'}}) }}
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </button>
+                </div>
 
                 {# Adresse #}
-                <label for="streetName" class="col-lg-4 pb-3">Adresse : </label>
-                <label for="streetName" class="col-lg-7"></label>
-
-                <label for="zipcode" class="col-lg-4 pb-4">Code postal :</label>
-                <label for="zipcode" class="col-lg-7"></label>
+                <div class="form-group pb-2">
+                    <label for="streetName" class="col-lg-4 pb-2">Adresse : </label>
+                    <label for="streetName" class="col-lg-7"></label>
+                </div>
+                <div class="form-group pb-2">
+                    <label for="zipcode" class="col-lg-4 pb-3">Code postal :</label>
+                    <label for="zipcode" class="col-lg-7"></label>
+                </div>
 
                 {# Latitude #}
-                <label for="latitude" class="col-lg-4 pb-3">Latitude :</label>
-                <input type="text" id="latitude" name="latitude" class="col-lg-7">
+                <div class="form-group pb-2">
+                    <label for="latitude" class="col-lg-4 pb-2">Latitude :</label>
+                    <input type="text" id="latitude" name="latitude" class="col-lg-7">
+                </div>
 
                 {# Longitude #}
-                <label for="longitude" class="col-lg-4 pb-3">Longitude :</label>
-                <input type="text" id="longitude" name="longitude" class="col-lg-7">
+                <div class="form-group pb-2">
+                    <label for="longitude" class="col-lg-4">Longitude :</label>
+                    <input type="text" id="longitude" name="longitude" class="col-lg-7">
+                </div>
             </div>
-        </form>
 
-        {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
-            <h6 class="pb-1">Liste des participants inscrits :</h6>
+            {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
+                <h6 class="pb-1">Liste des participants inscrits :</h6>
 
-            <div class="tableFixHead" style="height:125px;width: 45%">
-                <table class="table table-bordered table-striped mb-0" >
-                    <thead>
-                    <tr class="table-primary text-center">
-                        <th scope="col" class="text-center">Pseudo</th>
-                        <th scope="col" class="text-center">Nom</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-center">
-                    {% for participant in sortie.sortiesParticipants %}
-                        <tr>
-                            <td>{{ participant.pseudo }}</td>
-                            <td>
-                                <a href="{{ path("profil_details", {id: participant.id}) }}" class="link-dark">
-                                    {{ participant.prenom }} {{ participant.nom }}
-                                </a>
-                            </td>
+                <div class="tableFixHead" style="height:125px;width: 45%">
+                    <table class="table table-bordered table-striped mb-0" >
+                        <thead>
+                        <tr class="table-primary text-center">
+                            <th scope="col" class="text-center">Pseudo</th>
+                            <th scope="col" class="text-center">Nom</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-        {% endif %}
-
-        <div class="form-group pt-4 pb-2 text-center">
-            {% if sortie is defined %}
-                {% if sortie.etat.libelle == 'Créée' %}
-                    <input type="submit" value="Enregistrer" class="btn btn-outline-primary col-lg-1"/>
-                    <input type="submit" value="Publier la sortie" class="btn btn-outline-success col-lg-auto"/>
-                    <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
-                {% endif %}
-                {% if sortie.etat.libelle == 'Clôturée' %}
-                    <input type="submit" value="Annuler la sortie" class="btn btn-outline-warning col-lg-auto"/>
-                {% endif %}
+                        </thead>
+                        <tbody class="text-center">
+                        {% for participant in sortie.sortiesParticipants %}
+                            <tr>
+                                <td>{{ participant.pseudo }}</td>
+                                <td>
+                                    <a href="{{ path("profil_details", {id: participant.id}) }}" class="link-dark">
+                                        {{ participant.prenom }} {{ participant.nom }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% endif %}
-            <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
-        </div>
 
+            <div class="form-group pt-4 pb-2 text-center">
+                {% if sortie is defined %}
+                    {% if sortie.etat.libelle == 'Créée' %}
+                        {{ form_widget(sortieForm.enregistrer) }}
+                        {{ form_widget(sortieForm.publier) }}
+                        <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
+                    {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
+                        {% do sortieForm.enregistrer.setRendered() %}
+                        {% do sortieForm.publier.setRendered() %}
+                        {% if sortie.organisateur.id == app.user.id %}
+                            <input type="submit" value="Annuler la sortie" class="btn btn-outline-warning col-lg-auto"/>
+                        {% endif %}
+                    {% else %}
+                        {% do sortieForm.enregistrer.setRendered() %}
+                        {% do sortieForm.publier.setRendered() %}
+                    {% endif %}
+                {% else %}
+                    {{ form_widget(sortieForm.enregistrer) }}
+                    {{ form_widget(sortieForm.publier) }}
+                {% endif %}
+                <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
+            </div>
+            {{ form_end(sortieForm) }}
+        </div>
     </div>
 
     {{ include('utils/footer.html.twig') }}

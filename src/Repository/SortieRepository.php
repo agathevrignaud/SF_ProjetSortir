@@ -45,32 +45,70 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function findSortieByFilter($filter): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('sortie');
+
+        if ($filter['site']) {
+            $qb
+                ->andWhere('sortie.site = :site')
+                ->setParameter('site', $filter['site']);
+        }
+
+        if ($filter['nom']) {
+            $qb
+                ->andWhere('sortie.nom LIKE :nom')
+                ->setParameter('nom', '%'.$filter['nom'].'%');
+        }
+
+        if ($filter['dateDebut'] || $filter['dateFin']) {
+            $dateDebut = $filter['dateDebut'] ? date_format($filter['dateDebut'], 'Y-m-d') : date('Y-m-d');
+            $dateFin = $filter['dateFin'] ? date_format($filter['dateFin'], 'Y-m-d') : date('Y-m-d');
+            $qb
+                ->andWhere('sortie.dateHeureDebut BETWEEN :dateDebut and :dateFin')
+                ->setParameter('dateDebut', $dateDebut)
+                ->setParameter('dateFin', $dateFin);
+        }
+
+        if ($filter['organisateur']) {
+            $qb
+                ->andWhere('sortie.organisateur = :organisateur')
+                ->setParameter('organisateur', $filter['userId']);
+        }
+
+        if ($filter['estInscrit']) {
+            $qb
+                ->andWhere(':userId MEMBER OF sortie.sortiesParticipants')
+                ->setParameter('userId', $filter['userId']);
+        }
+
+        if ($filter['estNonInscrit']) {
+            $qb
+                ->andWhere(':userId NOT MEMBER OF sortie.sortiesParticipants')
+                ->setParameter('userId', $filter['userId']);
+        }
+
+
+        if ($filter['estPassee']) {
+            $today = date('Y-m-d');
+            $todayMinusAMonth = date('Y-m-d', strtotime("-1 months"));
+            $qb
+                ->andWhere("sortie.dateHeureDebut BETWEEN :today AND :todayMinusAMonth ")
+                ->setParameter('today', $today)
+                ->setParameter('todayMinusAMonth', $todayMinusAMonth)
+                ->andWhere("sortie.etat = :libelle ")
+                ->setParameter('libelle', 'Passée' );
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
     }
-    */
+
+
+
 }
