@@ -54,7 +54,7 @@ class UserController extends AbstractController implements PasswordUpgraderInter
 
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('photo')->getData();
-            if ($image != null) {
+            if($image !=null){
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
                 $image->move(
                     $this->getParameter('images_directory'),
@@ -63,12 +63,14 @@ class UserController extends AbstractController implements PasswordUpgraderInter
                 $user->setPhoto($fichier);
                 $entityManager->persist($user);
                 $entityManager->flush();
-            } else {
+            }
+            else{
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
+
             $this->addFlash('success', 'Profil modifié !');
-            return $this->redirectToRoute('profil_details', ['id' => $user->getId()]);
+            return $this->redirectToRoute('profil_details',['id'=> $user->getId() ]);
         }
 
         return $this->render('pages/editProfil.html.twig', [
