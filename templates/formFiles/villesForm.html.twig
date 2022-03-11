@@ -3,26 +3,14 @@
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
-    <div class="container">
-        <h3 class="text-center py-3">Ajouter une nouvelle ville</h3>
-        <div class="tableFixHeadCity">
-            {{ form_start(villeForm) }}
-            <div class="form-group pb-2 text-center">
-                <label for="pseudo" class="col-lg-2">{{ form_label(villeForm.nom) }} * :</label>
-                {{ form_widget(villeForm.nom) }}
-            </div>
-            <div class="form-group pb-2 text-center">
-                <label for="pseudo" class="col-lg-2">{{ form_label(villeForm.codePostal) }} * :</label>
-                {{ form_widget(villeForm.codePostal) }}
-            </div>
 
-        </div>
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary btn-lg p-3">Créer une nouvelle ville</button>
-            {{ form_end(villeForm) }}
-        </div>
+        {{ form_start(villeForm) }}
+            {{ form_label(villeForm.nom) }}
+            {{ form_widget(villeForm.nom) }}
+            {{ form_label(villeForm.codePostal) }}
+            {{ form_widget(villeForm.codePostal) }}
+        {{ form_end(villeForm) }}
 
-    </div>
 
     {{ include('utils/footer.html.twig') }}
 {% endblock %}
