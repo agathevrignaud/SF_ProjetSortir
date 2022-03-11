@@ -19,254 +19,208 @@
     {% endfor %}
 
     <div class="container" style="min-height: 80vh">
-        {% if action is not defined %}
-            {% if sortie is defined %}
-                <h3 class="text-center py-3"> Sortie N°{{ sortie.id }} | {{ sortie.nom }}</h3>
-            {% else %}
-                <h3 class="text-center py-3">Créer une sortie</h3>
+        {% if sortie is defined %}
+            <h3 class="text-center py-3"> Sortie N°{{ sortie.id }} | {{ sortie.nom }}</h3>
+        {% else %}
+            <h3 class="text-center py-3">Créer une sortie</h3>
+        {% endif %}
+
+        {# Modal d'ajout de lieu #}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau lieu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Ajouter</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {# Col 1 du formulaire #}
+            <div class="col-lg-6">
+            {{ form_start(sortieForm) }}
+                {# Nom #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
+
+                {# Date & Heure de début #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
+
+                {# Date limite d'inscription #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
+
+                {# Nombre de participants #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
+
+                {# Durée #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2 ps-2'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
+                    {% endif %}
+                    minutes
+                </div>
+
+                {# Description & Infos #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
+                    {% if sortie is defined %}
+                        {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
+                    {% else %}
+                        {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
+                    {% endif %}
+                </div>
+
+            </div>
+
+            {# Col 2 du formulaire #}
+            <div class="col-lg-6">
+                {# Site organisateur #}
+                <div class="form-group pb-2">
+                    <label class="col-lg-4">Site organisateur :</label>
+                    <label class="col-lg-7">
+                        {% if sortie is defined %}
+                            {{ sortie.site.nom }}
+                        {% else %}
+                            {{ app.user.site.nom }}
+                        {% endif %}
+                    </label>
+                </div>
+
+                {# Villes #}
+                <div class="form-group pb-2">
+                    <label for="cities" class="col-lg-4">Ville :</label>
+                    <select name="cities" id="cities" class="col-lg-6 py-auto ps-2 align-middle">
+                        <option value="">Choisir une ville...</option>
+                        {% for ville in villes %}
+                            <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {# Lieux #}
+                <div class="form-group pb-2">
+                    {{ form_label(sortieForm.lieu, "Lieu :", {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </button>
+                </div>
+
+                {# Adresse #}
+                <div class="form-group pb-2">
+                    <label for="streetName" class="col-lg-4 pb-2">Adresse : </label>
+                    <label for="streetName" class="col-lg-7 ps-2"></label>
+                </div>
+                <div class="form-group pb-2">
+                    <label for="zipcode" class="col-lg-4 pb-3">Code postal :</label>
+                    <label for="zipcode" class="col-lg-7 ps-2"></label>
+                </div>
+
+                {# Latitude #}
+                <div class="form-group pb-2">
+                    <label for="latitude" class="col-lg-4 pb-2">Latitude :</label>
+                    <input type="text" id="latitude" name="latitude" class="col-lg-3 ps-2" value="">
+                </div>
+
+                {# Longitude #}
+                <div class="form-group pb-2">
+                    <label for="longitude" class="col-lg-4">Longitude :</label>
+                    <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
+                </div>
+            </div>
+
+            {# Affichage des participants #}
+            {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
+                <h6 class="pb-1">Liste des participants inscrits :</h6>
+
+                <div class="tableFixHead" style="height:125px;width: 45%">
+                    <table class="table table-bordered table-striped mb-0" >
+                        <thead>
+                        <tr class="table-primary text-center">
+                            <th scope="col" class="text-center">Pseudo</th>
+                            <th scope="col" class="text-center">Nom</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        {% for participant in sortie.sortiesParticipants %}
+                            <tr>
+                                <td>{{ participant.pseudo }}</td>
+                                <td>
+                                    <a href="{{ path("profil_details", {id: participant.id}) }}" class="link-dark">
+                                        {{ participant.prenom }} {{ participant.nom }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% endif %}
 
-            {# Modal d'ajout de lieu #}
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau lieu</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Ajouter</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                {# Col 1 du formulaire #}
-                <div class="col-lg-6">
-                {{ form_start(sortieForm) }}
-
-                    {# Nom #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
-                        {% endif %}
-                    </div>
-
-                    {# Date & Heure de début #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-7'}}) }}
-                        {% endif %}
-                    </div>
-
-                    {# Date limite d'inscription #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-7'}}) }}
-                        {% endif %}
-                    </div>
-
-                    {# Nombre de participants #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-7'}}) }}
-                        {% endif %}
-                    </div>
-
-                    {# Durée #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
-                        {% endif %}
-                        minutes
-                    </div>
-
-                    {# Description & Infos #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
-                        {% if sortie is defined %}
-                            {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
-                        {% else %}
-                            {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
-                        {% endif %}
-                    </div>
-
-                </div>
-                {# Col 2 du formulaire #}
-                <div class="col-lg-6">
-                    {# Site organisateur #}
-                    <div class="form-group pb-2">
-                        <label class="col-lg-4">Site organisateur :</label>
-                        <label class="col-lg-7">
-                            {% if sortie is defined %}
-                                {{ sortie.site.nom }}
-                            {% else %}
-                                {{ app.user.site.nom }}
-                            {% endif %}
-                        </label>
-                    </div>
-
-                    {# Villes #}
-                    <div class="form-group pb-2">
-                        <label for="cities" class="col-lg-4">Ville :</label>
-                        <select name="cities" id="cities" class="col-lg-6 py-auto align-middle">
-                            <option value="">Choisir une ville...</option>
-                            {% for ville in villes %}
-                                <option value="{{ ville.id }}">{{ ville.nom }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    {# Lieux #}
-                    <div class="form-group pb-2">
-                        {{ form_label(sortieForm.lieu, "Lieu :", {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
-                        {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-lg-6 py-auto align-middle'}}) }}
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="bi bi-plus-circle-fill"></i>
-                        </button>
-                    </div>
-
-                    {# Adresse #}
-                    <div class="form-group pb-2">
-                        <label for="streetName" class="col-lg-4 pb-2">Adresse : </label>
-                        <label for="streetName" class="col-lg-7"></label>
-                    </div>
-                    <div class="form-group pb-2">
-                        <label for="zipcode" class="col-lg-4 pb-3">Code postal :</label>
-                        <label for="zipcode" class="col-lg-7"></label>
-                    </div>
-
-                    {# Latitude #}
-                    <div class="form-group pb-2">
-                        <label for="latitude" class="col-lg-4 pb-2">Latitude :</label>
-                        <input type="text" id="latitude" name="latitude" class="col-lg-7">
-                    </div>
-
-                    {# Longitude #}
-                    <div class="form-group pb-2">
-                        <label for="longitude" class="col-lg-4">Longitude :</label>
-                        <input type="text" id="longitude" name="longitude" class="col-lg-7">
-                    </div>
-                </div>
-
-                {# Affichage des participants #}
-                {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
-                    <h6 class="pb-1">Liste des participants inscrits :</h6>
-
-                    <div class="tableFixHead" style="height:125px;width: 45%">
-                        <table class="table table-bordered table-striped mb-0" >
-                            <thead>
-                            <tr class="table-primary text-center">
-                                <th scope="col" class="text-center">Pseudo</th>
-                                <th scope="col" class="text-center">Nom</th>
-                            </tr>
-                            </thead>
-                            <tbody class="text-center">
-                            {% for participant in sortie.sortiesParticipants %}
-                                <tr>
-                                    <td>{{ participant.pseudo }}</td>
-                                    <td>
-                                        <a href="{{ path("profil_details", {id: participant.id}) }}" class="link-dark">
-                                            {{ participant.prenom }} {{ participant.nom }}
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                {% endif %}
-
-                {# Affichage des boutons d'action #}
-                <div class="form-group pt-4 pb-2 text-center">
-                    {% if sortie is defined %}
-                        {% if sortie.etat.libelle == 'Créée' %}
-                            {{ form_widget(sortieForm.enregistrer) }}
-                            {{ form_widget(sortieForm.publier) }}
-                            <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
-                        {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
-                            {% do sortieForm.enregistrer.setRendered() %}
-                            {% do sortieForm.publier.setRendered() %}
-                            {% if sortie.organisateur.id == app.user.id %}
-                                <input type="submit" value="Annuler la sortie" class="btn btn-outline-warning col-lg-auto"/>
-                            {% endif %}
-                        {% else %}
-                            {% do sortieForm.enregistrer.setRendered() %}
-                            {% do sortieForm.publier.setRendered() %}
-                        {% endif %}
-                    {% else %}
+            {# Affichage des boutons d'action #}
+            <div class="form-group pt-4 pb-2 text-center">
+                {% if sortie is defined %}
+                    {% if sortie.etat.libelle == 'Créée' %}
                         {{ form_widget(sortieForm.enregistrer) }}
                         {{ form_widget(sortieForm.publier) }}
+                        <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
+                    {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
+                        {% do sortieForm.enregistrer.setRendered() %}
+                        {% do sortieForm.publier.setRendered() %}
+                        {% if sortie.organisateur.id == app.user.id %}
+                            <a class="btn btn-warning col-lg-auto" href="{{ path('sortie_annuler', {id: sortie.id}) }}">Annuler la sortie</a>
+                        {% endif %}
+                    {% else %}
+                        {% do sortieForm.enregistrer.setRendered() %}
+                        {% do sortieForm.publier.setRendered() %}
                     {% endif %}
-                    <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
-                </div>
-
-                {{ form_end(sortieForm) }}
+                {% else %}
+                    {{ form_widget(sortieForm.enregistrer) }}
+                    {{ form_widget(sortieForm.publier) }}
+                {% endif %}
+                <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
             </div>
-        {% else %}
-            <h3 class="text-center py-3">Annuler la sortie</h3>
-            <form>
-                <div class="row">
-                    <div class="col-lg-4 mx-auto pb-2">
-                        <label for="username" class="col-lg-6">Nom de la sortie :</label>
-                        <label for="username" class="col-lg-auto ps-2">{{ sortie.nom }}</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mx-auto pb-2">
-                        <label for="username" class="col-lg-6">Date et heure de la sortie :</label>
-                        <label for="username" class="col-lg-auto ps-2">{{ sortie.dateHeureDebut|date('d-m-Y') }}</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mx-auto pb-2">
-                        <label for="username" class="col-lg-6">Site organisateur :</label>
-                        <label for="username" class="col-lg-auto ps-2">{{ sortie.site.nom | upper }}</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mx-auto pb-2">
-                        <label for="username" class="col-lg-6 align-top">Lieu :</label>
-                        <label for="username" class="col-lg-auto ps-2">
-                            {{ sortie.lieu.nom }} <br/> {{ sortie.lieu.rue }} <br/> {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom | upper }}
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mx-auto pb-2">
-                        <label class="col-lg-2 align-top">Motif :</label>
-                        <textarea class="col-lg-9"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-warning col-lg-auto" href="{{ path('home')}}">Annuler la sortie</a>
-                        <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
-                    </div>
-                </div>
-            </form>
 
-        {% endif %}
+            {{ form_end(sortieForm) }}
+        </div>
     </div>
 
     {{ include('utils/footer.html.twig') }}
