@@ -18,7 +18,7 @@ class UserController extends AbstractController implements PasswordUpgraderInter
 
 {
     #[Route('/profil/{id}', name: 'profil_details')]
-    public function detailsProfil(EntityManagerInterface $entityManager ,int $id)
+    public function afficherProfil(EntityManagerInterface $entityManager, int $id)
     {
         $userRepository = $entityManager->getRepository(User::class);
 
