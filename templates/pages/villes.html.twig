@@ -3,19 +3,52 @@
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
-    <div class="container">
+    <div class="container" style="min-height: 80vh">
+        {# Modal Ajout de Ville #}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une ville</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(villeForm) }}
+                        <div class="form-group pb-2">
+                            {{ form_label(villeForm.nom, 'Nom de la ville *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                            {{ form_widget(villeForm.nom, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                        </div>
+                        <div class="form-group pb-2">
+                            {{ form_label(villeForm.codePostal, 'Code postal *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                            {{ form_widget(villeForm.codePostal, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{ form_widget(villeForm.ajouter) }}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                    {{ form_end(villeForm) }}
+                </div>
+            </div>
+        </div>
+
+
         <h3 class="text-center py-3">Gérer les villes</h3>
         <h5>Filtrer les villes</h5>
-            <form>
-                <div class="row">
-                    <div class="form-group py-3 ps-3">
-                        <label for="citySearch" class="align-middle">Le nom contient :</label>
-                        <input type="text" id="citySearch" class="align-middle">
-                        <a href="{{ path('villes_filtre') }}" class="btn btn-primary btn-sm">Rechercher</a>
-                    </div>
+            <div class="row">
+                <div class="py-3 ps-3">
+                    {{ form_start(villeFiltreForm) }}
+                        {{ form_label(villeFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
+                        {{ form_widget(villeFiltreForm.nom, {'attr': {'class': 'align-middle'}}) }}
+                        {{ form_widget(villeFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
+                        <a href="{{ path('villes') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Ajouter une ville
+                        </button>
+                    {{ form_end(villeFiltreForm) }}
                 </div>
-            </form>
-        <div class="tableFixHeadCity">
+            </div>
+        <div class="tableFixHead">
             <table class="table table-hover table-bordered table-striped mb-0">
                 <thead>
                     <tr class="table-primary">
@@ -37,9 +70,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <div class=row">
-            <a class="btn btn-primary m-3 p-2" href="{{ path('villes_ajouter') }}">Ajouter une ville</a>
         </div>
     </div>
 

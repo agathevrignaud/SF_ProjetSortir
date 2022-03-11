@@ -5,8 +5,15 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\VilleType;
 use App\Repository\VilleRepository;
+use App\Form\VilleFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,28 +21,43 @@ use Symfony\Component\Routing\Annotation\Route;
 class VillesController extends AbstractController
 {
     #[Route('/admin/villes', name: 'villes')]
-    public function listeVilles(VilleRepository $villeRepository): Response
+    public function listeVilles(EntityManagerInterface $entityManager, Request $request, VilleRepository $villeRepository): Response
     {
-        $villes = $villeRepository->findAll();
-        return $this->render('pages/villes.html.twig', [
-            'villes' => $villes,
-        ]);
-    }
 
-    #[Route('/admin/villes', name: 'villes_filtre')]
-    public function filtreVilles(string $nom, VilleRepository $villeRepository): Response
-    {
-        $villes = $villeRepository->findBy([], ['nom' => $nom]);
-        return $this->render('pages/villes.html.twig', [
-            'villes' => $villes,
-        ]);
-    }
-    #[Route('/admin/villes/ajouter', name: 'villes_ajouter')]
-    public function ajouterVille(Request $request,EntityManagerInterface $entityManager)
-    {
+        /*
+         * Form Filtre sur le nom des villes
+         */
+        $formFiltre = $this->createFormBuilder()
+            ->add('nom', TextType::class, array(
+                'label' => 'Le nom contient :',
+                'required' => true,
+                'attr' => array(
+                    'placeholder' => 'Nom de la ville...',
+                )
+            ))
+            ->add('rechercher', SubmitType::class, array(
+                'label' => 'Rechercher',
+            ))
+            ->getForm();
+
+        $formFiltre->handleRequest($request);
+
+        if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
+            $data = $formFiltre->getData();
+            if (!empty(array_filter($data, function($i) { return $i; }))) {
+                $villes = $villeRepository->findVilleByFilter($data);
+            } else {
+                $villes = $villeRepository->findAll();
+            }
+        } else {
+            $villes = $villeRepository->findAll();
+        }
+
+        /*
+         * Form ajout des villes
+         */
         $ville = new Ville();
-
-        $form = $this->createForm(VilleType::class, $ville);
+        $form = $this->createForm(VilleFormType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -43,8 +65,12 @@ class VillesController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('villes');
         }
-        return $this->render('formFiles/villesForm.html.twig', [
+
+        return $this->render('pages/villes.html.twig', [
+            'villes' => $villes,
             'villeForm' => $form->createView(),
+            'villeFiltreForm' => $formFiltre->createView()
         ]);
     }
+
 }
