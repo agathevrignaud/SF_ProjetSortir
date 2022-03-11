@@ -122,8 +122,7 @@ class SortiesController extends AbstractController
             return $this->redirectToRoute('sortie_details', ['id' => $sortie->getId()]);
         }
 
-        return $this->render('pages/sortie.html.twig', [
-            'action' => 'Annulée',
+        return $this->render('pages/annulerSortie.html.twig', [
             'sortie' => $sortie,
             'sortieForm' => $form->createView(),
         ]);
@@ -131,7 +130,7 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sortie/{id}/{nouvelEtat}', name: 'sortie_etat')]
-    public function publierSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    public function updateEtatSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $sortie = $sortieRepository->find($id);
@@ -142,7 +141,7 @@ class SortiesController extends AbstractController
 
         $this->addFlash(
             'notice',
-            'Votre sortie '.$sortie->getNom().' est désormais '. $nouvelEtat.' !'
+            'Votre sortie '.$sortie->getNom().' est désormais '. strtolower($nouvelEtat) .' !'
         );
 
         return $this->redirectToRoute('home');

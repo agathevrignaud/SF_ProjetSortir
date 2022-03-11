@@ -5,6 +5,8 @@ use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,8 +44,12 @@ class SortieFormType extends AbstractType
             ->add('nbInscriptionsMax',TextType::class, array(
                 'label' => 'Nombre de places :'
             ))
-            ->add('duree',TextType::class, array(
-                'label' => 'Durée :'
+            ->add('duree',IntegerType::class, array(
+                'attr' => [
+                    'min' => 0,
+                    'max' => 240,
+                    'step' => 10
+                ]
             ))
             ->add('infoSortie',TextareaType::class, array(
                 'label' => 'Description et infos :'

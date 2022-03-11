@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+        Annuler la Sortie N°{{ sortie.id }} | {{ sortie.nom }}
+{% endblock %}
+
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+
+    <div class="container" style="min-height: 80vh">
+        <h3 class="text-center py-3">Annuler la sortie</h3>
+        <form>
+            <div class="row">
+                <div class="col-lg-5 mx-auto pb-2">
+                    <label for="username" class="col-lg-5">Nom de la sortie :</label>
+                    <label for="username" class="col-lg-auto ps-2">{{ sortie.nom }}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 mx-auto pb-2">
+                    <label for="username" class="col-lg-5">Date et heure de la sortie :</label>
+                    <label for="username" class="col-lg-auto ps-2">{{ sortie.dateHeureDebut|date('d-m-Y') }}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 mx-auto pb-2">
+                    <label for="username" class="col-lg-5">Site organisateur :</label>
+                    <label for="username" class="col-lg-auto ps-2">{{ sortie.site.nom | upper }}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 mx-auto pb-2">
+                    <label for="username" class="col-lg-5 align-top">Lieu :</label>
+                    <label for="username" class="col-lg-auto ps-2">
+                        {{ sortie.lieu.nom }} <br/> {{ sortie.lieu.rue }} <br/> {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom | upper }}
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 mx-auto pb-2">
+                    <label class="col-lg-2 align-top">Motif :</label>
+                    <textarea class="col-lg-9"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-warning col-lg-auto" href="{{ path('sortie_etat', {id: sortie.id, nouvelEtat: 'Annulée'}) }}">Annuler la sortie</a>
+                    <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
