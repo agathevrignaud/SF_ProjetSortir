@@ -53,7 +53,6 @@ class Sortie
     private $lieu;
 
 
-
     public function __construct()
     {
         $this->sortiesParticipants = new ArrayCollection();
@@ -72,7 +71,6 @@ class Sortie
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -84,7 +82,6 @@ class Sortie
     public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
-
         return $this;
     }
 
@@ -96,7 +93,6 @@ class Sortie
     public function setDateLimiteIncription(\DateTimeInterface $dateLimiteIncription): self
     {
         $this->dateLimiteIncription = $dateLimiteIncription;
-
         return $this;
     }
 
@@ -108,7 +104,6 @@ class Sortie
     public function setNbInscriptionsMax(int $nbInscriptionsMax): self
     {
         $this->nbInscriptionsMax = $nbInscriptionsMax;
-
         return $this;
     }
 
@@ -120,7 +115,6 @@ class Sortie
     public function setInfoSortie(?string $infoSortie): self
     {
         $this->infoSortie = $infoSortie;
-
         return $this;
     }
 
@@ -132,12 +126,8 @@ class Sortie
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
-
         return $this;
     }
-
-
-
 
     public function getSite(): ?Site
     {
@@ -186,7 +176,6 @@ class Sortie
         if ($this->sortiesParticipants->removeElement($sortiesParticipant)) {
             $sortiesParticipant->removeParticipant($this);
         }
-
         return $this;
     }
 
