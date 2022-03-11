@@ -3,24 +3,61 @@
 {% block body %}
     {{ include('utils/header.html.twig') }}
 
-    <div class="container">
-        <h3 class="text-center py-3">Gérer les sites</h3>
-        <h5>Filtrer les sites</h5>
-        <form>
-            <div class="row">
-                <div class="form-group py-3 ps-3">
-                    <label for="citySearch" class="align-middle">Le nom contient :</label>
-                    <input type="text" id="citySearch" class="align-middle">
-                    <button class="btn btn-primary btn-sm" type="submit">Rechercher</button>
+    <div class="container" style="min-height: 80vh">
+        <div class="col my-auto mx-auto text-center">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success p-2 my-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {# Modal Ajout de Ville #}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un site</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(siteForm) }}
+                        <div class="form-group pb-2">
+                            {{ form_label(siteForm.nom, 'Nom du site *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                            {{ form_widget(siteForm.nom, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{ form_widget(siteForm.ajouter) }}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                    {{ form_end(siteForm) }}
                 </div>
             </div>
-        </form>
-        <div class="tableFixHeadCity">
-            <table class="table table-bordered table-striped table-hover">
+        </div>
+
+        {# Tableau + Filtre #}
+        <h3 class="text-center py-3">Gérer les sites</h3>
+        <h5>Filtrer les sites</h5>
+        <div class="row">
+            <div class="py-3 ps-3">
+                {{ form_start(siteFiltreForm) }}
+                {{ form_label(siteFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
+                {{ form_widget(siteFiltreForm.nom, {'attr': {'class': 'align-middle'}}) }}
+                {{ form_widget(siteFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
+                <a href="{{ path('sites') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Ajouter un site
+                </button>
+                {{ form_end(siteFiltreForm) }}
+            </div>
+        </div>
+        <div class="tableFixHead">
+            <table class="table table-hover table-bordered table-striped mb-0">
                 <thead>
-                <tr class="table-primary text-center">
-                    <th scope="col" class="text-center">Ville</th>
-                    <th scope="col" class="text-center">Actions</th>
+                <tr class="table-primary">
+                    <th scope="col" class="table-primary text-center">Ville</th>
+                    <th scope="col" class="table-primary text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody class="text-center">
@@ -36,9 +73,7 @@
                 </tbody>
             </table>
         </div>
-        <div class=row">
-            <a class="btn btn-primary m-3 p-2" href="{{ path('site_ajouter') }}">Ajouter un site</a>
-        </div>
+
     </div>
 
     {{ include('utils/footer.html.twig') }}

@@ -45,6 +45,23 @@ class SiteRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function findSiteByFilter($filter): array
+    {
+        $qb = $this->createQueryBuilder('site');
+
+        if ($filter['nom']) {
+            $qb
+                ->andWhere('site.nom LIKE :nom')
+                ->setParameter('nom', '%'.$filter['nom'].'%');
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
     // /**
     //  * @return Site[] Returns an array of Site objects
     //  */

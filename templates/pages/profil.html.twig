@@ -4,10 +4,9 @@
     {{ include('utils/header.html.twig') }}
 
     <div class="container" style="min-height: 80vh">
-        <h3 class="text-center py-3">{{ profil.pseudo }}</h3>
+        <h3 class="text-center py-3">{{ profil.pseudo }} | {{ profil.prenom }} {{ profil.nom }}</h3>
         <div class="row">
-            {# User profile picture #}
-            {% if profil.photo is null %}
+            {# Image profil #}
             <div class="col-lg-3 py-auto my-auto text-center">
                 <img
                     src="{{ asset('img/blank_profile_pic.png') }}"
@@ -15,40 +14,26 @@
                     alt="profile_picture"
                 />
             </div>
-            {% else %}
-            <div class="col-lg-3 py-auto my-auto text-center">
-                <img
-                        src="{{ asset('upload/'~ profil.photo)}}"
-                        style="width:200px"
-                        alt="profile_picture"
-                        class="rounded-circle"
-                />
-            </div>
-            {% endif %}
 
-            {# User profile info #}
-            <div class="col-lg-9">
+            {# Form profil #}
+            <div class="col-lg-5">
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                        <input
+                            type="text"
+                            name="pseudo"
+                            id="pseudo"
+                            value="{{ profil.pseudo }}"
+                            class="form-control"
+                            placeholder="Nom d'utilisateur"
+                            aria-label="pseudo"
+                            aria-describedby="basic-addon1"
+                        >
+                    </div>
 
-                    <div class="form-group pb-2">
-                        <p id="username" name="username" class="col-lg-4" >Pseudo : {{ profil.pseudo }}</p>
-                    </div>
-                    <div class="form-group pb-2">
-                        <p id="firstname" name="firstname" class="col-lg-4" >Prénom : {{ profil.prenom }}</p>
-                    </div>
-                    <div class="form-group pb-2">
-                        <p id="lastname" name="lastname" class="col-lg-4">Nom : {{ profil.nom }} </p>
-                    </div>
-                    <div class="form-group pb-2">
-                        <p id="phoneNumber" name="phoneNumber" >Téléphone : {{ profil.telephone }}</p>
-                    </div>
-                    <div class="form-group pb-2">
-                        <p id="email" name="email"  >Email : {{ profil.email }} </p>
-                    </div>
-                    {% if profil.site is not empty %}
-                    <div class="form-group pb-2">
-                        <p id="cities" name="cities"  >Site de rattachement : {{ profil.site.nom }} </p>
-                    </div>
-                    {% endif %}
+                    <a href="" class="btn btn-outline-primary" type="submit">Enregistrer</a>
+                </form>
             </div>
         </div>
     </div>

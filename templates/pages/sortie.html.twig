@@ -63,7 +63,7 @@
                     {% if sortie is defined %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7 ps-2'}}) }}
                     {% else %}
-                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
                 </div>
 
@@ -73,7 +73,7 @@
                     {% if sortie is defined %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7 ps-2'}}) }}
                     {% else %}
-                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
                 </div>
 
@@ -83,7 +83,7 @@
                     {% if sortie is defined %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7 ps-2'}}) }}
                     {% else %}
-                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
                 </div>
 

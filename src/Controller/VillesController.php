@@ -63,6 +63,12 @@ class VillesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($ville);
             $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'La ville '.$ville->getNom().' a été ajoutée !'
+            );
+
             return $this->redirectToRoute('villes');
         }
 
