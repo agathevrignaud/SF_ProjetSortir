@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -25,8 +26,18 @@ class EditProfilType extends AbstractType
                 'class' => 'App\Entity\Site',
                 'choice_label' => 'nom'
             ))
+            // On ajoute le champ "images" dans le formulaire
+            // Il n'est pas lié à la base de données (mapped à false)
+            ->add('photo', FileType::class,[
+                'label' => 'Photo de profil',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false
+            ])
         ;
     }
+
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

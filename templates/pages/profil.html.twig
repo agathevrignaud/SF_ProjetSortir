@@ -7,6 +7,7 @@
         <h3 class="text-center py-3">{{ profil.pseudo }}</h3>
         <div class="row">
             {# User profile picture #}
+            {% if profil.photo is null %}
             <div class="col-lg-3 py-auto my-auto text-center">
                 <img
                     src="{{ asset('img/blank_profile_pic.png') }}"
@@ -14,10 +15,20 @@
                     alt="profile_picture"
                 />
             </div>
+            {% else %}
+            <div class="col-lg-3 py-auto my-auto text-center">
+                <img
+                        src="{{ asset('upload/'~ profil.photo)}}"
+                        style="width:200px"
+                        alt="profile_picture"
+                        class="rounded-circle"
+                />
+            </div>
+            {% endif %}
 
             {# User profile info #}
             <div class="col-lg-9">
-                <form>
+
                     <div class="form-group pb-2">
                         <p id="username" name="username" class="col-lg-4" >Pseudo : {{ profil.pseudo }}</p>
                     </div>
@@ -38,7 +49,6 @@
                         <p id="cities" name="cities"  >Site de rattachement : {{ profil.site.nom }} </p>
                     </div>
                     {% endif %}
-                </form>
             </div>
         </div>
     </div>
