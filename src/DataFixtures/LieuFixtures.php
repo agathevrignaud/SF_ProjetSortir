@@ -14,9 +14,9 @@ class LieuFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        for($nbLieu = 1; $nbLieu <= 5; $nbLieu++) {
+        for($nbLieu = 0; $nbLieu < 10; $nbLieu++) {
             $lieu = new Lieu();
-            $lieu->setNom($faker->title);
+            $lieu->setNom($faker->sentence($nbWords = 3, $variableNbWords = true));
             $lieu->setRue($faker->streetName);
             $lieu->setLatitude($faker->latitude);
             $lieu->setLongitude($faker->longitude);
