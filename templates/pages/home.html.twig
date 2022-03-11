@@ -115,7 +115,7 @@
                                 {% elseif sortie.etat.libelle == 'Ouverte' %}
                                     <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>
                                     {% if user.id == sortie.organisateur.id %}
-                                        <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
+                                        <a href="{{ path('sortie_annuler', {id: sortie.id, action: 'Annulée'}) }}" title="Annuler la sortie"><i class="bi bi-x-square"></i></a>
                                     {% endif  %}
                                     {% if user in sortie.sortiesParticipants %}
                                         <a href="{{ path('sortie_inscription_desistement', {id: sortie.id, userId: user.id, action: 'desistement'}) }}" title="Se désister"><i class="bi bi-dash-circle"></i></a>

@@ -89,6 +89,8 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filter['estNonInscrit']) {
             $qb
+                ->andWhere('sortie.organisateur != :organisateur')
+                ->setParameter('organisateur', $filter['userId'])
                 ->andWhere(':userId NOT MEMBER OF sortie.sortiesParticipants')
                 ->setParameter('userId', $filter['userId']);
         }

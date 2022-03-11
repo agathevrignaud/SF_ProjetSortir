@@ -99,6 +99,37 @@ class SortiesController extends AbstractController
         ]);
     }
 
+    #[Route('/sortie/{id}/annuler', name: 'sortie_annuler')]
+    public function annulerSortie(Request $request, int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $sortie = $sortieRepository->find($id);
+
+        $form = $this->createForm(SortieFormType::class, $sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'La sortie N°'.$sortie->getId().' a été mise à jour avec succès !'
+            );
+
+            return $this->redirectToRoute('sortie_details', ['id' => $sortie->getId()]);
+        }
+
+        return $this->render('pages/sortie.html.twig', [
+            'action' => 'Annulée',
+            'sortie' => $sortie,
+            'sortieForm' => $form->createView(),
+        ]);
+    }
+
+
     #[Route('/sortie/{id}/{nouvelEtat}', name: 'sortie_etat')]
     public function publierSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
@@ -144,6 +175,5 @@ class SortiesController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
 
 }
