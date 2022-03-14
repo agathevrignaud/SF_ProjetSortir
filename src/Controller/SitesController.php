@@ -41,8 +41,6 @@ class SitesController extends AbstractController
             $data = $formFiltre->getData();
             if (!empty(array_filter($data, function($i) { return $i; }))) {
                 $sites = $siteRepository->findSiteByFilter($data);
-            } else {
-                $sites = $siteRepository->findAll();
             }
         } else {
             $sites = $siteRepository->findAll();
