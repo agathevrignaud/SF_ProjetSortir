@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer les utilisateurs | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container" style="min-height: 80vh">
+        <div class="col my-auto mx-auto text-center">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success p-2 my-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {# Tableau + Filtre #}
+        <h3 class="text-center py-3">Gérer les utilisateurs</h3>
+        <h5>Filtrer les utilisateurs</h5>
+        <div class="row">
+            <div class="py-3 ps-3">
+                {{ form_start(utilisateurFiltreForm) }}
+                    {{ form_label(utilisateurFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
+                    {{ form_widget(utilisateurFiltreForm.nom, {'attr': {'class': 'align-middle col-lg-2'}}) }}
+                    {{ form_widget(utilisateurFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
+                    <a href="{{ path('utilisateurs') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                {{ form_end(utilisateurFiltreForm) }}
+            </div>
+        </div>
+        <div class="tableFixHead">
+            <table class="table table-hover table-bordered table-striped mb-0">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" class="table-primary text-center">Pseudo</th>
+                        <th scope="col" class="table-primary text-center">Nom</th>
+                        <th scope="col" class="table-primary text-center">Email</th>
+                        <th scope="col" class="table-primary text-center">Site ENI</th>
+                        <th scope="col" class="table-primary text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.pseudo }}</td>
+                            <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
+                            <td>{{ utilisateur.email }}</td>
+                            <td>{{ utilisateur.site.nom|upper }}</td>
+                            <td style="width: 20%">
+                                {% if utilisateur.actif %}
+                                    <a href="" title="Désactiver">Désactiver</a>
+                                {% else %}
+                                    <a href="" title="Activer">Activer</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}

@@ -42,8 +42,6 @@ class VillesController extends AbstractController
             $data = $formFiltre->getData();
             if (!empty(array_filter($data, function($i) { return $i; }))) {
                 $villes = $villeRepository->findVilleByFilter($data);
-            } else {
-                $villes = $villeRepository->findAll();
             }
         } else {
             $villes = $villeRepository->findAll();
