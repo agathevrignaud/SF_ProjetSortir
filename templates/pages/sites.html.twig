@@ -13,11 +13,11 @@
         </div>
 
         {# Modal Ajout de Ville #}
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ajoutSite" tabindex="-1" aria-labelledby="ajoutSiteLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un site</h5>
+                        <h5 class="modal-title" id="ajoutSiteLabel">Ajouter un site</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -46,7 +46,7 @@
                 {{ form_widget(siteFiltreForm.nom, {'attr': {'class': 'align-middle'}}) }}
                 {{ form_widget(siteFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
                 <a href="{{ path('sites') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
-                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ajoutSite">
                     Ajouter un site
                 </button>
                 {{ form_end(siteFiltreForm) }}
@@ -63,10 +63,22 @@
                 <tbody class="text-center">
                 {% for site in sites %}
                     <tr>
-                        <td>{{ site.nom }}</td>
-                        <td>
-                            <a href="" title="Modifier le site"><i class="bi bi-pencil-square" style="font-size: 1.25rem"></i></a>
-                            <a href="" title="Supprimer le site"><i class="bi bi-x-square" style="font-size: 1.25rem"></i></a>
+                        <td>{{ site.nom|upper }}</td>
+                        <td style="width: 20%">
+                            <button
+                                type="button"
+                                class="btn btn-sm p-0"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ajoutSite"
+                            >
+                                <i class="bi bi-pencil-square link-primary" style="font-size: 1.25rem;"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm p-0"
+                            >
+                                <i class="bi bi-x-square link-primary" style="font-size: 1.25rem;"></i>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}

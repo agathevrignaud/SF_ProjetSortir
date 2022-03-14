@@ -7,11 +7,7 @@ use App\Form\VilleType;
 use App\Repository\VilleRepository;
 use App\Form\VilleFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VillesController extends AbstractController
 {
     #[Route('/admin/villes', name: 'villes')]
-    public function listeVilles(EntityManagerInterface $entityManager, Request $request, VilleRepository $villeRepository): Response
+    public function afficherVilles(EntityManagerInterface $entityManager, Request $request, VilleRepository $villeRepository): Response
     {
 
         /*

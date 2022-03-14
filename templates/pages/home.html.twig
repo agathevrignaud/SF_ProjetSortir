@@ -104,7 +104,7 @@
                             </td>
                             <td>{% if user in sortie.sortiesParticipants %} <i class="bi bi-x"></i> {% endif %}</td>
                             <td>
-                                <a href="{{ path("profil_details", {id: sortie.organisateur.id}) }}" class="link-dark">
+                                <a href="{{ path("profil", {id: sortie.organisateur.id}) }}" class="link-dark">
                                     {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|slice(0,1) }}.
                                 </a>
                             </td>
