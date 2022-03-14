@@ -31,7 +31,10 @@
                     <label for="site" class="col-lg-2">Site de rattachement * :</label>
                     {{ form_widget(registrationForm.site) }}
                 </div>
-
+                <div class="form-group pb-2 text-center">
+                    <label for="site" class="col-lg-2">{{ form_label(registrationForm.photo) }} :</label>
+                    {{ form_widget(registrationForm.photo) }}
+                </div>
                 <div class="form-group pb-2 text-center">
                     <label for="email" class="col-lg-2">Mot de passe * :</label>
                     {{ form_widget(registrationForm.plainPassword) }}

@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
+#[UniqueEntity(fields: ['nom'], message: 'Cette ville est déjà créé')]
+#[UniqueEntity(fields: ['codePostal'], message: 'Ce code postal est déjà utilisé')]
 class Ville
 {
     #[ORM\Id]
