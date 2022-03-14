@@ -195,33 +195,44 @@
 >>>>>>> Added sign up / bail out fonctions on trips page
             </div>
 
-            {# Affichage des participants #}
-            {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
-                <h6 class="pb-1">Liste des participants inscrits :</h6>
+            <div class="row pt-3">
+                {# Affichage des participants #}
+                <div class="col-lg-6">
+                    {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
+                        <h6 class="pb-1">Liste des participants inscrits :</h6>
 
-                <div class="tableFixHead" style="height:125px;width: 45%">
-                    <table class="table table-bordered table-striped mb-0" >
-                        <thead>
-                        <tr class="table-primary text-center">
-                            <th scope="col" class="text-center">Pseudo</th>
-                            <th scope="col" class="text-center">Nom</th>
-                        </tr>
-                        </thead>
-                        <tbody class="text-center">
-                        {% for participant in sortie.sortiesParticipants %}
-                            <tr>
-                                <td>{{ participant.pseudo }}</td>
-                                <td>
-                                    <a href="{{ path("profil", {id: participant.id}) }}" class="link-dark">
-                                        {{ participant.prenom }} {{ participant.nom }}
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                        <div class="tableFixHead ps-2" style="height:125px;width:90%">
+                            <table class="table table-bordered table-striped mb-0" >
+                                <thead>
+                                <tr class="table-primary text-center">
+                                    <th scope="col" class="text-center">Pseudo</th>
+                                    <th scope="col" class="text-center">Nom</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for participant in sortie.sortiesParticipants %}
+                                    <tr>
+                                        <td>{{ participant.pseudo }}</td>
+                                        <td>
+                                            <a href="{{ path("profil", {id: participant.id}) }}" class="link-dark">
+                                                {{ participant.prenom }} {{ participant.nom }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
+                {# Affichage du motif d'annulation #}
+                <div class="col-lg-6">
+                    {% if sortie is defined and sortie.etat.libelle == 'Annulée' %}
+                        <h6 class="pb-1"><i class="bi bi-exclamation-triangle-fill" style="color:red"></i> Motif d'annulation :</h6>
+                        <span class="ps-2" style="width: 100%">{{ sortie.motifAnnulation }}</span>
+                    {% endif %}
+                </div>
+            </div>
 
             {# Affichage des boutons d'action #}
             <div class="form-group pt-4 pb-2 text-center">
@@ -233,7 +244,7 @@
                     {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
                         {% do sortieForm.enregistrer.setRendered() %}
                         {% do sortieForm.publier.setRendered() %}
-                        {% if sortie.organisateur.id == app.user.id %}
+                        {% if sortie.organisateur.id == app.user.id or 'ROLE_ADMIN' in app.user.roles() %}
                             <a class="btn btn-warning col-lg-auto" href="{{ path('sortie_annuler', {id: sortie.id}) }}">Annuler la sortie</a>
                         {% endif %}
                     {% else %}

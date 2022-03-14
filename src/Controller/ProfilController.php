@@ -60,9 +60,13 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
 
             /* Mot de passe */
 
-
             $entityManager->persist($profil);
             $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'Votre profil a été mis à jour !'
+            );
 
             return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
         }

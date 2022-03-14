@@ -15,7 +15,7 @@
 
     {{ include('utils/header.html.twig') }}
 
-    <div class="container">
+    <div class="container" style="min-height: 80vh">
         <div class="row">
             <div class="col my-auto mx-auto text-center">
                 {% for message in app.flashes('notice') %}
@@ -35,49 +35,48 @@
         <h5>Filtrer les sorties</h5>
         <form class="row p-3" method="post">
             {{ form_start(sortieFiltreForm) }}
-            <div class="col-lg-5 ps-3">
+            <div class="col-lg-4">
                 <div class="row pb-2">
                     <div class="form-group">
-                        <div class="form-group">
-                            <label for="site" class="col-lg-1">Site :</label>
-                            {{ form_widget(sortieFiltreForm.site) }}
-                        </div>
+                        <label for="site" class="col-lg-2">Site :</label>
+                        {{ form_widget(sortieFiltreForm.site, {'attr': {'class' : 'col-lg-9 align-middle'}}) }}
                     </div>
                 </div>
                 <div class="row pb-2">
                     <div class="form-group">
-                        <label for="citySearch" class="align-middle pe-2">{{ form_label(sortieFiltreForm.nom) }}</label>
-                        {{ form_widget(sortieFiltreForm.nom) }}
+                        {{ form_label(sortieFiltreForm.nom, 'Le nom contient :', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                        {{ form_widget(sortieFiltreForm.nom, {'attr': {'class' : 'col-lg-7 align-middle'}}) }}
                     </div>
                 </div>
                 <div class="row pb-2">
                     <div class="form-group">
-                        <label for="citySearch" class="align-middle pe-2">Entre :</label>
-                        {{ form_widget(sortieFiltreForm.dateDebut) }}
-                        <label for="citySearch" class="align-middle"> et </label>
-                        {{ form_widget(sortieFiltreForm.dateFin) }}
+                        <label class="align-middle col-lg-2">Entre</label>
+                        {{ form_widget(sortieFiltreForm.dateDebut, {'attr': {'class' : 'align-middle'}}) }}
+                        <label class="align-middle col-lg-1 text-center"> et </label>
+                        {{ form_widget(sortieFiltreForm.dateFin, {'attr': {'class' : 'align-middle'}}) }}
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="form-group">
                     {{ form_widget(sortieFiltreForm.organisateur) }}
-                    <label for="" class="align-middle"> {{ form_label(sortieFiltreForm.organisateur) }} </label><br/>
+                    <label for="" class="align-middle ps-1"> {{ form_label(sortieFiltreForm.organisateur) }} </label><br/>
                     {{ form_widget(sortieFiltreForm.estInscrit) }}
-                    <label for="" class="align-middle"> {{ form_label(sortieFiltreForm.estInscrit) }} </label><br/>
+                    <label for="" class="align-middle ps-1"> {{ form_label(sortieFiltreForm.estInscrit) }} </label><br/>
                     {{ form_widget(sortieFiltreForm.estNonInscrit) }}
-                    <label for="" class="align-middle"> {{ form_label(sortieFiltreForm.estNonInscrit) }} </label><br/>
+                    <label for="" class="align-middle ps-1"> {{ form_label(sortieFiltreForm.estNonInscrit) }} </label><br/>
                     {{ form_widget(sortieFiltreForm.estPassee) }}
-                    <label for="" class="align-middle"> {{ form_label(sortieFiltreForm.estPassee) }} </label><br/>
+                    <label for="" class="align-middle ps-1"> {{ form_label(sortieFiltreForm.estPassee) }} </label><br/>
                 </div>
             </div>
-            <div class="col-lg-2 text-center">
+            <div class="col-lg-4 my-auto text-center">
                 <input type="submit" value="Rechercher" class="btn btn-primary p-4">
+                <a class="btn btn-outline-primary p-4 ms-5" href="{{ path('sortie_creer') }}">Créer une sortie</a>
             </div>
             {{ form_end(sortieFiltreForm) }}
         </form>
 
-        <div class="tableFixHead">
+        <div class="tableFixHead" style="height: 290px">
             <table class="table table-bordered table-striped mb-0">
                 <thead>
                     <tr class="table-primary text-center">
@@ -136,9 +135,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <div class=row">
-            <a class="btn btn-primary m-3 p-2" href="{{ path('sortie_creer') }}">Créer une sortie</a>
         </div>
     </div>
 

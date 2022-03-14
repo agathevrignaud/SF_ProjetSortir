@@ -26,8 +26,7 @@ class SortieFormType extends AbstractType
                 'required' => false,
                 'html5' => false,
                 'attr' => [
-                    'class' => 'js-datepicker align-middle ps-2',
-                    'placeholder' => 'jj/mm/aaaa h:m',
+                    'placeholder' => 'jj/mm/aaaa',
                 ],
             ))
             ->add('dateLimiteIncription',DateType::class, array(
@@ -37,7 +36,7 @@ class SortieFormType extends AbstractType
                 'required' => false,
                 'html5' => false,
                 'attr' => [
-                    'class' => 'js-datepicker align-middle ps-2',
+                    'class' => 'js-datepicker',
                     'placeholder' => 'jj/mm/aaaa',
                 ],
             ))
