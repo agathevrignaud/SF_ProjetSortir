@@ -15,8 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitesController extends AbstractController
 {
+
     #[Route('/admin/sites', name: 'sites')]
-    public function listeSites(EntityManagerInterface $entityManager, Request $request, SiteRepository $siteRepository): Response
+    public function afficherSites(EntityManagerInterface $entityManager, Request $request, SiteRepository $siteRepository): Response
     {
         /*
          * Form Filtre sur le nom des villes
