@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -30,15 +31,15 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
         }
 
         /*
-         * Form update du profil
+         * Form update du profil & du mdp
          */
         $form = $this->createForm(UserFormType::class, $profil);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($profil);
-            $photoProfil = $form['photo']->getData();
 
+            /* Photo de profil */
+            $photoProfil = $form['photo']->getData();
             if($photoProfil) {
                 $originalFilename = pathinfo($photoProfil->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -56,6 +57,9 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
             } elseif ($profilImg) {
                 $profil->setPhoto($profilImg);
             }
+
+            /* Mot de passe */
+
 
             $entityManager->persist($profil);
             $entityManager->flush();
