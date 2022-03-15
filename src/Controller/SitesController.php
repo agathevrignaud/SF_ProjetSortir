@@ -20,7 +20,7 @@ class SitesController extends AbstractController
     public function afficherSites(EntityManagerInterface $entityManager, Request $request, SiteRepository $siteRepository): Response
     {
         /*
-         * Form Filtre sur le nom des villes
+         * Form Filtre sur le nom des sites
          */
         $formFiltre = $this->createFormBuilder()
             ->add('nom', TextType::class, array(
@@ -47,19 +47,36 @@ class SitesController extends AbstractController
         }
 
         /*
-         * Form ajout des villes
+         * Form ajout/modif des sites
          */
         $site = new Site();
         $form = $this->createForm(SiteFormType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $id = $form->get('id')->getData();
+            $flashMessage = 'Le site '.$site->getNom().' a été ajouté !';
+
+            if ($id) {
+                $site = $siteRepository->find($id);
+                $nom = $form->get('nom')->getData();
+                $site->setNom($nom);
+
+                $flashMessage = 'Le site '.$site->getNom().' a été modifié !';
+            }
+
             $entityManager->persist($site);
             $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                $flashMessage
+            );
+
             return $this->redirectToRoute('sites');
         }
 
-        return $this->render('pages/sites.html.twig', [
+        return $this->render('pages/administration/sites.html.twig', [
             'sites' => $sites,
             'siteForm' => $form->createView(),
             'siteFiltreForm' => $formFiltre->createView()

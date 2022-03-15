@@ -10,4 +10,7 @@
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 
-body{ min-height: 80vh; }
+body{ min-height: 80vh;}
+.form label{
+
+}

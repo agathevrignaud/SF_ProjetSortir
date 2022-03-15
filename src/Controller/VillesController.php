@@ -19,7 +19,6 @@ class VillesController extends AbstractController
     #[Route('/admin/villes', name: 'villes')]
     public function afficherVilles(EntityManagerInterface $entityManager, Request $request, VilleRepository $villeRepository): Response
     {
-
         /*
          * Form Filtre sur le nom des villes
          */
@@ -48,25 +47,36 @@ class VillesController extends AbstractController
         }
 
         /*
-         * Form ajout des villes
+         * Form ajout/modif des villes
          */
         $ville = new Ville();
         $form = $this->createForm(VilleFormType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $id = $form->get('id')->getData();
+            $flashMessage = 'La ville '.$ville->getNom().' a été ajoutée !';
+
+            if ($id) {
+                $ville = $villeRepository->find($id);
+                $nom = $form->get('nom')->getData();
+                $ville->setNom($nom);
+
+                $flashMessage = 'La ville '.$ville->getNom().' a été modifiée !';
+            }
+
             $entityManager->persist($ville);
             $entityManager->flush();
 
             $this->addFlash(
                 'notice',
-                'La ville '.$ville->getNom().' a été ajoutée !'
+                $flashMessage
             );
 
             return $this->redirectToRoute('villes');
         }
 
-        return $this->render('pages/villes.html.twig', [
+        return $this->render('pages/administration/villes.html.twig', [
             'villes' => $villes,
             'villeForm' => $form->createView(),
             'villeFiltreForm' => $formFiltre->createView()
