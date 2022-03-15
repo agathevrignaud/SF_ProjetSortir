@@ -12,7 +12,7 @@
             {% endfor %}
         </div>
 
-        {# Modal Ajout de Ville #}
+        {# Modal Ajout de Site #}
         <div class="modal fade" id="ajoutSite" tabindex="-1" aria-labelledby="ajoutSiteLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -70,6 +70,8 @@
                                 class="btn btn-sm p-0"
                                 data-bs-toggle="modal"
                                 data-bs-target="#ajoutSite"
+                                data-bs-site="{{ site.nom }}"
+                                data-bs-id="{{ site.id }}"
                             >
                                 <i class="bi bi-pencil-square link-primary" style="font-size: 1.25rem;"></i>
                             </button>
@@ -87,6 +89,24 @@
         </div>
 
     </div>
+    <script>
+        document.addEventListener('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            var button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            var site = button.getAttribute('data-bs-site')
+            var id = button.getAttribute('data-bs-id')
+            // If necessary, you could initiate an AJAX request here
+            // and then do the updating in a callback.
+            //
+            // Update the modal's content.
+            var modalSiteValue = document.getElementById('site_form_nom')
+
+            console.log(site, modalSiteValue);
+
+            modalSiteValue.value = site
+        })
+    </script>
 
     {{ include('utils/footer.html.twig') }}
 {% endblock %}
