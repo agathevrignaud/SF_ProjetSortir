@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Form\UserFormType;
+use App\Form\ProfilFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
         /*
          * Form update du profil & du mdp
          */
-        $form = $this->createForm(UserFormType::class, $profil);
+        $form = $this->createForm(ProfilFormType::class, $profil);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
