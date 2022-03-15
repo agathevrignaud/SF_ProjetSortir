@@ -16,21 +16,24 @@
         <div class="modal fade" id="ajoutSite" tabindex="-1" aria-labelledby="ajoutSiteLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ajoutSiteLabel">Ajouter un site</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(siteForm) }}
-                        <div class="form-group pb-2">
-                            {{ form_label(siteForm.nom, 'Nom du site *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
-                            {{ form_widget(siteForm.nom, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                    {{ form_start(siteForm) }}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ajoutSiteLabel">
+                                Ajouter un site
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        {{ form_widget(siteForm.ajouter) }}
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
+                        <div class="modal-body">
+                            <div class="form-group pb-2">
+                                {{ form_label(siteForm.nom, 'Nom du site *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                                {{ form_widget(siteForm.nom, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                                {{ form_widget(siteForm.id)}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            {{ form_widget(siteForm.ajouter) }}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
                     {{ form_end(siteForm) }}
                 </div>
             </div>
@@ -91,20 +94,23 @@
     </div>
     <script>
         document.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            var button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            var site = button.getAttribute('data-bs-site')
-            var id = button.getAttribute('data-bs-id')
-            // If necessary, you could initiate an AJAX request here
-            // and then do the updating in a callback.
-            //
-            // Update the modal's content.
-            var modalSiteValue = document.getElementById('site_form_nom')
+            let button = event.relatedTarget
 
-            console.log(site, modalSiteValue);
-
+            let site = button.getAttribute('data-bs-site')
+            let modalSiteValue = document.getElementById('site_form_nom')
             modalSiteValue.value = site
+
+            let id = button.getAttribute('data-bs-id')
+            let modalSiteId = document.getElementById('site_form_id')
+            modalSiteId.value = id
+
+            if (id) {
+                let modalTitle = document.querySelector('.modal-title')
+                modalTitle.textContent = 'Modifier le site'
+
+                let modalButton = document.getElementById('site_form_ajouter')
+                modalButton.textContent = 'Modifier'
+            }
         })
     </script>
 
