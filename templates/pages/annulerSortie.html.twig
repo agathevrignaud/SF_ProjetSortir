@@ -9,7 +9,7 @@
 
     <div class="container" style="min-height: 80vh">
         <h3 class="text-center py-3">Annuler la sortie</h3>
-        <form>
+        {{ form_start(sortieForm) }}
             <div class="row">
                 <div class="col-lg-5 mx-auto pb-2">
                     <label for="username" class="col-lg-5">Nom de la sortie :</label>
@@ -38,17 +38,17 @@
             </div>
             <div class="row">
                 <div class="col-lg-5 mx-auto pb-2">
-                    <label class="col-lg-2 align-top">Motif :</label>
-                    <textarea class="col-lg-9"></textarea>
+                    {{ form_label(sortieForm.motifAnnulation, 'Motif : ', { 'label_attr' : { 'class' : 'col-lg-auto pe-2 align-top'}}) }}
+                    {{ form_widget(sortieForm.motifAnnulation, { 'attr' : { 'class' : 'col-lg-9'}}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <a class="btn btn-warning col-lg-auto" href="{{ path('sortie_etat', {id: sortie.id, nouvelEtat: 'Annulée'}) }}">Annuler la sortie</a>
+                    <input type="submit" value="Annuler la sortie" class="btn btn-warning col-lg-auto">
                     <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
                 </div>
             </div>
-        </form>
+        {{ form_end(sortieForm) }}
     </div>
 
     {{ include('utils/footer.html.twig') }}
