@@ -1,9 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <footer class="bg-light text-center text-lg-start">
-        <div class="text-center p-3 navbar-light bg-light">
-            <a class="nav-link" href="https://www.eni-ecole.fr/">www.eni-ecole.fr © 2022</a>
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-light bg-light">
+        <div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('contact') }}"><i class="bi bi-envelope" style="color: black"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-facebook" style="color: #1877F2"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-twitter" style="color: #1DA1F2"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-instagram" style="color: #E4405F"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-linkedin" style="color: #0A66C2"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-youtube" style="color: #CD201F"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-github" style="color: black"></i></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </footer>
+    </nav>
 {% endblock %}
