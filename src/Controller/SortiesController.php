@@ -161,7 +161,6 @@ class SortiesController extends AbstractController
         ]);
     }
 
-
     #[Route('/sortie/{id}/{nouvelEtat}', name: 'sortie_etat')]
     public function updateEtatSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
