@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -12,8 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['email'], message: 'Il y existe déjà un compte avec cette adresse email')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Ce pseudo est déjà utilisé,veuillez choisir un autre')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,22 +22,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    /**
+     * @Assert\Email(message = "l'email '{{ value }}' n'est pas un email valide." )
+     * @Assert\NotNull(message="Veuillez renseigner votre email.")
+     */
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    /**
+     * @Assert\NotCompromisedPassword(message="Ce mot de passe a été divulgué lors d'une violation de données, il ne doit pas être utilisé. Veuillez utiliser un autre mot de passe.")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage = "Votre mot de passe doit contenir {{ limit }} caractères minimum",
+     *      allowEmptyString = false)
+     */
     private $password;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $nom;
 
     #[ORM\Column(type: 'string', length: 100)]
+    /**
+     * @Assert\NotNull(message="Veuillez renseigner votre nom.")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom ne peut pas contenir un numero"
+     * )
+     *   @Assert\Length(
+     *      min = 3,
+     *      minMessage = "Le nom doit contenir {{ limit }} caractères minimum",
+     *      allowEmptyString = false)
+     */
+    private $nom;
+
+
+    #[ORM\Column(type: 'string', length: 100)]
+    /**
+     * @Assert\NotNull(message="Veuillez renseigner votre prénom.")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre prénom ne peut pas contenir un numero"
+     * )
+     * @Assert\Length(
+     *      min = 3,
+     *      minMessage = "Le Prénom doit contenir {{ limit }} caractères minimum",
+     *      allowEmptyString = false)
+     */
     private $prenom;
 
     #[ORM\Column(type: 'string', length: 13, nullable: true)]
+    /**
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9]/",
+     *     match=false,
+     *     message="Uniquement des chiffres"
+     * )
+     */
     private $telephone;
 
     #[ORM\Column(type: 'boolean')]
@@ -53,6 +99,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $site;
 
     #[ORM\Column(type: 'string', length: 180)]
+    /**
+     * @Assert\NotNull(message="Veuillez renseigner votre prénom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      minMessage = "Le Prénom doit contenir {{ limit }} caractères minimum",
+     *      allowEmptyString = false)
+     */
     private $pseudo;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
