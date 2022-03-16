@@ -44,10 +44,12 @@
                             <td>{{ utilisateur.email }}</td>
                             <td>{{ utilisateur.site.nom|upper }}</td>
                             <td style="width: 20%">
+                                <a href="{{ path('profil', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Voir Profil"><i class="bi bi-person-circle link-primary"></i></a>
+
                                 {% if utilisateur.actif %}
-                                    <a href="" title="Désactiver">Désactiver</a>
+                                    <a href="{{ path('utilisateur_actif_inactif', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Désactiver"><i class="bi bi-person-x link-primary"></i></a>
                                 {% else %}
-                                    <a href="" title="Activer">Activer</a>
+                                    <a href="{{ path('utilisateur_actif_inactif', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Activer"><i class="bi bi-person-check link-primary"></i></a>
                                 {% endif %}
                             </td>
                         </tr>

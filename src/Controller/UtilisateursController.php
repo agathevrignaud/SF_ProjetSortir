@@ -17,7 +17,6 @@ class UtilisateursController extends AbstractController
     #[Route('/admin/utilisateurs', name: 'utilisateurs')]
     public function afficherUtilisateurs(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
     {
-
         /*
          * Form Filtre sur le prénom/nom des utilisateurs
          */
@@ -49,6 +48,26 @@ class UtilisateursController extends AbstractController
             'utilisateurs' => $utilisateurs,
             'utilisateurFiltreForm' => $formFiltre->createView()
         ]);
+    }
+
+    #[Route('/admin/utilisateurs/{id}', name: 'utilisateur_actif_inactif')]
+    public function activerUtilisateur(int $id,EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+        $user->setActif(!$user->getActif());
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'notice',
+            $user->getActif() ?
+                "L'utilisateur ".$user->getPseudo()." a été activé !"
+                :
+                "L'utilisateur ".$user->getPseudo()." a été désactivé !"
+        );
+
+        return $this->redirectToRoute('utilisateurs', []);
     }
 
 }
