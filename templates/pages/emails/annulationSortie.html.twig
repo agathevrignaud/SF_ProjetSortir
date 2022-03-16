@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3>Bonjour {{ email.toName }},</h3>
+        <p>
+            Vous étiez inscrit(e) à la sortie {{ sortie.nom }} organisée le {{ sortie.dateHeureDebut|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY 'à' k':'mm ") }}
+            par {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}.
+            <br/>
+            La sortie a été annulée pour le motif suivant : {{ sortie.motifAnnulation }}.
+        </p>
+        <p>Merci de votre compréhension.</p>
+        <p>Bien à vous, <br/> L'équipe de Sortir.com</p>
+    </div>
+{% endblock %}
