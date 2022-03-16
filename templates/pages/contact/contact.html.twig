@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nous contacter | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+    <div class="container" style="min-height: 80vh">
+        <div class="row justify-content-center">
+            <div  class="col-lg-8">
+                <div class="col my-auto mx-auto text-center">
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-success p-2 my-3">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <h5 class="py-3">Nous contacter</h5>
+                <p>Pour nous contacter, merci d'utiliser le formulaire ci-dessous :</p>
+                {% form_theme contactForm 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(contactForm) }}
+                <div class="form-group pb-2">
+                    {{ form_label(contactForm.nom, 'Votre nom *:') }}
+                    {{ form_widget(contactForm.nom) }}
+                </div>
+                <div class="form-group pb-2">
+                    {{ form_label(contactForm.email, 'Votre email *:') }}
+                    {{ form_widget(contactForm.email) }}
+                </div>
+                <div class="form-group pb-2">
+                    {{ form_label(contactForm.objet, 'Objet *:') }}
+                    {{ form_widget(contactForm.objet) }}
+                </div>
+                <div class="form-group pb-2">
+                    {{ form_widget(contactForm.message) }}
+                </div>
+                <div class="form-group pb-2">
+                    <input type="submit" class="btn btn-primary" value="Envoyer"/>
+                    <a href="{{ path('home') }}" class="btn btn-outline-primary">Retour</a>
+                </div>
+                {{ form_end(contactForm) }}
+            </div>
+        </div>
+    </div>
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
