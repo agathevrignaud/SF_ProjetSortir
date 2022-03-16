@@ -95,25 +95,6 @@ class SitesController extends AbstractController
             'Le site '.$site->getNom().' a été supprimé !'
         );
 
-        $sites = $siteRepository->findAll();
-        $form = $this->createForm(SiteFormType::class, $site);
-        $formFiltre = $this->createFormBuilder()
-            ->add('nom', TextType::class, array(
-                'label' => 'Le nom contient :',
-                'required' => true,
-                'attr' => array(
-                    'placeholder' => 'Nom du site...',
-                )
-            ))
-            ->add('rechercher', SubmitType::class, array(
-                'label' => 'Rechercher',
-            ))
-            ->getForm();
-
-        return $this->render('pages/administration/sites.html.twig', [
-            'sites' => $sites,
-            'siteForm' => $form->createView(),
-            'siteFiltreForm' => $formFiltre->createView()
-        ]);
+        return $this->redirectToRoute('sites', []);
     }
 }

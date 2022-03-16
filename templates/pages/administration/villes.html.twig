@@ -46,7 +46,7 @@
         <h3 class="text-center py-3">Gérer les villes</h3>
         <h5>Filtrer les villes</h5>
         <div class="row">
-            <div class="py-3 ps-3">
+            <div class="pt-3 ps-3">
                 {{ form_start(villeFiltreForm) }}
                     {{ form_label(villeFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
                     {{ form_widget(villeFiltreForm.nom, {'attr': {'class': 'align-middle'}}) }}
@@ -56,6 +56,9 @@
                         Ajouter une ville
                     </button>
                 {{ form_end(villeFiltreForm) }}
+            </div>
+            <div class="row d-inline pb-2">
+                <small style="color: #999999">Seules les villes qui ne sont liées à aucun lieu peuvent être supprimées à l'aide de l'icône<i class="bi bi-x-square px-1"></i></small>
             </div>
         </div>
         <div class="tableFixHead" style="height: 370px">
@@ -84,12 +87,11 @@
                                 >
                                     <i class="bi bi-pencil-square link-primary" style="font-size: 1.25rem;"></i>
                                 </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-sm p-0"
-                                >
-                                    <i class="bi bi-x-square link-primary" style="font-size: 1.25rem;"></i>
-                                </button>
+                                {% if ville.lieus|length == 0 %}
+                                    <a href="{{ path('villes_suppr', { id: ville.id }) }}" class="btn btn-sm p-0" title="Supprimer la ville">
+                                        <i class="bi bi-x-square link-primary" style="font-size: 1.25rem;"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

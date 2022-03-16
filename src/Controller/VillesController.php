@@ -83,4 +83,20 @@ class VillesController extends AbstractController
         ]);
     }
 
+
+    #[Route('/admin/villes/{id}', name: 'villes_suppr')]
+    public function supprimerVille(int $id, EntityManagerInterface $entityManager, Request $request, VilleRepository $villeRepository): Response
+    {
+        $ville = $villeRepository->find($id);
+        $entityManager->remove($ville);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'notice',
+            'La ville '.$ville->getNom().' a été supprimée !'
+        );
+
+        return $this->redirectToRoute('villes', []);
+    }
+
 }
