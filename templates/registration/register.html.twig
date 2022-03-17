@@ -5,44 +5,56 @@
     <div class="container" style="min-height: 80vh">
         <h3 class="text-center py-3">Créer un compte</h3>
         <div class="row">
+
             <div class="col">
+                {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
                 {{ form_start(registrationForm) }}
                 <div class="form-group pb-2 text-center">
                     <label for="pseudo" class="col-lg-2">{{ form_label(registrationForm.pseudo) }} * :</label>
                     {{ form_widget(registrationForm.pseudo) }}
+                    {{ form_errors(registrationForm.children.pseudo) }}
                 </div>
 
                 <div class="form-group pb-2 text-center">
                     <label for="email" class="col-lg-2">{{ form_label(registrationForm.email) }} * :</label>
                     {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.children.email) }}
                 </div>
 
                 <div class="form-group pb-2 text-center">
                     <label for="prenom" class="col-lg-2">{{ form_label(registrationForm.prenom) }} * :</label>
                     {{ form_widget(registrationForm.prenom) }}
+                    {{ form_errors(registrationForm.children.prenom) }}
                 </div>
 
                 <div class="form-group pb-2 text-center">
                     <label for="nom" class="col-lg-2">{{ form_label(registrationForm.nom) }} * :</label>
                     {{ form_widget(registrationForm.nom) }}
+                    {{ form_errors(registrationForm.children.nom) }}
                 </div>
 
                 <div class="form-group pb-2 text-center">
                     <label for="site" class="col-lg-2">Site de rattachement * :</label>
                     {{ form_widget(registrationForm.site) }}
+                    {{ form_errors(registrationForm.children.site) }}
                 </div>
                 <div class="form-group pb-2 text-center">
                     <label for="site" class="col-lg-2">{{ form_label(registrationForm.photo) }} :</label>
                     {{ form_widget(registrationForm.photo) }}
-                </div>
-                <div class="form-group pb-2 text-center">
-                    <label for="email" class="col-lg-2">Mot de passe * :</label>
-                    {{ form_widget(registrationForm.plainPassword) }}
+                    {{ form_errors(registrationForm.children.photo) }}
                 </div>
 
                 <div class="form-group pb-2 text-center">
-                    <label for="email" class="col-lg-2">Confirmation * :</label>
-                    {{ form_widget(registrationForm.plainPasswordConfirm) }}
+                    <label for="site" class="col-lg-2">{{ form_label(registrationForm.password.first) }} :</label>
+                    {{ form_widget(registrationForm.password.first,  {
+                        'attr': {'class': 'form-control-lg'}}) }}
+                    {{ form_errors(registrationForm.children.password.first) }}
+                </div>
+                <div class="form-group pb-2 text-center">
+                    {{ form_label(registrationForm.password.second) }}
+                    {{ form_widget(registrationForm.password.second,  {
+                        'attr': {'class': 'form-control-lg'}}) }}
+                    {{ form_errors(registrationForm.children.password.second) }}
                 </div>
 
                 <div class="form-group py-3 text-center">
