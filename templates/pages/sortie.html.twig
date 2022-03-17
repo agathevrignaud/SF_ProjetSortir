@@ -180,16 +180,10 @@
                 </div>
 
                 {# Longitude #}
-<<<<<<< HEAD
                 <div class="form-group pb-2">
                     <label for="longitude" class="col-lg-4">Longitude :</label>
                     <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
-=======
-                <label for="longitude" class="col-lg-4 pb-3">Longitude :</label>
-                <input type="text" id="longitude" name="longitude" class="col-lg-7">
-            </div>
-        </form>
 
         {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
             <h6 class="pb-1">Liste des participants inscrits :</h6>
@@ -211,7 +205,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
->>>>>>> Added sign up / bail out fonctions on trips page
             </div>
 
             <div class="row pt-3">
@@ -243,6 +236,7 @@
                             </table>
                         </div>
                     {% endif %}
+
                 </div>
                 {# Affichage du motif d'annulation #}
                 <div class="col-lg-6">
@@ -251,7 +245,6 @@
                         <span class="ps-2" style="width: 100%">{{ sortie.motifAnnulation }}</span>
                     {% endif %}
                 </div>
-            </div>
 
             {# Affichage des boutons d'action #}
             <div class="form-group pt-4 pb-2 text-center">

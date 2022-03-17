@@ -7357,6 +7357,7 @@
         },
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "name": "symfonycasts/reset-password-bundle",
             "version": "v1.13.0",
             "source": {
@@ -7394,6 +7395,8 @@
                 "psr-4": {
                     "SymfonyCasts\\Bundle\\ResetPassword\\": "src/"
 =======
+=======
+>>>>>>> e8f444faead96814e99e9ef612576bd1a05ba255
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.4",
             "source": {
@@ -7425,11 +7428,15 @@
             "autoload": {
                 "psr-4": {
                     "TijsVerkoyen\\CssToInlineStyles\\": "src"
+<<<<<<< HEAD
 >>>>>>> added send email when a trip is cancelled
+=======
+>>>>>>> e8f444faead96814e99e9ef612576bd1a05ba255
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
+<<<<<<< HEAD
 <<<<<<< HEAD
                 "MIT"
             ],
@@ -7440,6 +7447,8 @@
             },
             "time": "2022-02-23T14:48:27+00:00"
 =======
+=======
+>>>>>>> e8f444faead96814e99e9ef612576bd1a05ba255
                 "BSD-3-Clause"
             ],
             "authors": [
@@ -7526,7 +7535,6 @@
                 }
             ],
             "time": "2022-01-02T10:02:25+00:00"
->>>>>>> added send email when a trip is cancelled
         },
         {
             "name": "twig/extra-bundle",
