@@ -86,6 +86,10 @@
                  <source>Bad credentials.</source>
                  <target>L'adresse mail ou le mot de passe n'est pas correct</target>
               </trans-unit>
+              <trans-unit id="Account is disabled.">
+                  <source>Bad credentials.</source>
+                  <target>Compte désactivé !</target>
+              </trans-unit>
         </body>
     </file>
 </xliff>

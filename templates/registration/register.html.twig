@@ -9,9 +9,9 @@
             <div class="col">
                 {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
                 {{ form_start(registrationForm) }}
-                <div class="form-group pb-2 text-center">
-                    <label for="pseudo" class="col-lg-2">{{ form_label(registrationForm.pseudo) }} * :</label>
-                    {{ form_widget(registrationForm.pseudo) }}
+                <div class="form-group pb-2 text-center row">
+                    <label for="pseudo" class="col-2">{{ form_label(registrationForm.pseudo) }} * :</label>
+                    <div for="pseudo" class="col-8">{{ form_widget(registrationForm.pseudo) }}</div>
                     {{ form_errors(registrationForm.children.pseudo) }}
                 </div>
 
