@@ -12,6 +12,31 @@
             {% endfor %}
         </div>
 
+        {# Modal Ajout d'Utilisateur #}
+        <div class="modal fade" id="ajoutUtilisateur" tabindex="-1" aria-labelledby="ajoutUtilisateurLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ajoutUtilisateurLabel">
+                            Ajouter un utilisateur
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group pb-2">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         {# Tableau + Filtre #}
         <h3 class="text-center py-3">Gérer les utilisateurs</h3>
         <h5>Filtrer les utilisateurs</h5>
@@ -22,6 +47,9 @@
                     {{ form_widget(utilisateurFiltreForm.nom, {'attr': {'class': 'align-middle col-lg-2'}}) }}
                     {{ form_widget(utilisateurFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
                     <a href="{{ path('utilisateurs') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ajoutUtilisateur">
+                        Ajouter un utilisateur
+                    </button>
                 {{ form_end(utilisateurFiltreForm) }}
             </div>
         </div>
