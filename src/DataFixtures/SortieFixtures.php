@@ -18,8 +18,8 @@ class SortieFixtures extends Fixture
         for($nbSorties = 1; $nbSorties <= 5; $nbSorties++) {
             $sortie = new Sortie();
             $sortie->setNom($faker->title);
-            $sortie->setDateHeureDebut($faker->dateTime);
-            $sortie->setDateLimiteIncription($faker->dateTime);
+            $sortie->setDateHeureDebut($faker->dateTimeBetween('now', '+2weeks'));
+            $sortie->setDateLimiteIncription($faker->dateTimeBetween('+3weeks', '+6weeks'));
             $sortie->setDuree($faker->numberBetween(1,5));
             $sortie->setInfoSortie($faker->realText(25));
             $sortie->setNbInscriptionsMax($faker->numberBetween(1,10));

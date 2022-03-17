@@ -88,7 +88,7 @@
               </trans-unit>
               <trans-unit id="Account is disabled.">
                   <source>Bad credentials.</source>
-                  <target>Compte désactivé !</target>
+                  <target>Votre compte est désactivé !</target>
               </trans-unit>
         </body>
     </file>

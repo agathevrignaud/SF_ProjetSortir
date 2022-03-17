@@ -1,9 +1,16 @@
-<h1>Bonjour!</h1>
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Bonjour{{ user.name }},</h3>
 
-<p>Pour réinitialiser votre mot de passe cliquez sur le lien ci-dessous</p>
+        <p>Pour réinitialiser votre mot de passe cliquez sur le lien ci-dessous</p>
 
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">cliquez-ici</a>
+        <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">cliquez-ici</a>
 
-<p>Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+        <p>Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
 
-<p>Bonne journée.</p>
+        <p>Bien à vous, <br/> L'équipe de Sortir.com</p>
+
+    </div>
+
+{% endblock %}

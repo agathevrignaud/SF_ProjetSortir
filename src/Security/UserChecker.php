@@ -15,7 +15,7 @@ class UserChecker implements UserCheckerInterface
      */
     public function checkPreAuth(UserInterface $user)
     {
-       if(!$user->isActive()){
+       if($user->getActif() != true){
             throw new InactiveUserException;
        }
     }

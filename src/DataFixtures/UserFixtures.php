@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
             $user->setNom($faker->lastName);
             $user->setPrenom($faker->firstName);
             $user->setEmail($faker->email);
-            $user->setPseudo($faker->title);
+            $user->setPseudo($faker->userName);
             if($nbUsers===1)
                 $user->setRoles(['ROLE_ADMIN']);
             else
