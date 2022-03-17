@@ -45,6 +45,24 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function findVilleByFilter($filter): array
+    {
+        $qb = $this->createQueryBuilder('ville');
+
+        if ($filter['nom']) {
+            $qb
+                ->andWhere('ville.nom LIKE :nom')
+                ->setParameter('nom', '%'.$filter['nom'].'%');
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
     // /**
     //  * @return Ville[] Returns an array of Ville objects
     //  */

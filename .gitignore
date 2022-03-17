@@ -176,5 +176,6 @@ npm-debug.log
 yarn-error.log
 deleted_files
 file_history
+public/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony

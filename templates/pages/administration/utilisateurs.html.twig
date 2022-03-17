@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer les utilisateurs | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container" style="min-height: 80vh">
+        <div class="col my-auto mx-auto text-center">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success p-2 my-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {# Modal Ajout d'Utilisateur #}
+        <div class="modal fade" id="ajoutUtilisateur" tabindex="-1" aria-labelledby="ajoutUtilisateurLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ajoutUtilisateurLabel">
+                            Ajouter un utilisateur
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group pb-2">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {# Tableau + Filtre #}
+        <h3 class="text-center py-3">Gérer les utilisateurs</h3>
+        <h5>Filtrer les utilisateurs</h5>
+        <div class="row">
+            <div class="py-3 ps-3">
+                {{ form_start(utilisateurFiltreForm) }}
+                    {{ form_label(utilisateurFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
+                    {{ form_widget(utilisateurFiltreForm.nom, {'attr': {'class': 'align-middle col-lg-2'}}) }}
+                    {{ form_widget(utilisateurFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
+                    <a href="{{ path('utilisateurs') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ajoutUtilisateur">
+                        Ajouter un utilisateur
+                    </button>
+                {{ form_end(utilisateurFiltreForm) }}
+            </div>
+        </div>
+        <div class="tableFixHead">
+           <table class="table table-hover table-bordered table-striped mb-0">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" class="table-primary text-center">Pseudo</th>
+                        <th scope="col" class="table-primary text-center">Nom</th>
+                        <th scope="col" class="table-primary text-center">Email</th>
+                        <th scope="col" class="table-primary text-center">Site ENI</th>
+                        <th scope="col" class="table-primary text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.pseudo }}</td>
+                            <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
+                            <td>{{ utilisateur.email }}</td>
+                            <td>{{ utilisateur.site.nom|upper }}</td>
+                            <td style="width: 20%">
+                                <a href="{{ path('profil', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Voir Profil"><i class="bi bi-person-circle link-primary"></i></a>
+                                {% if utilisateur.actif %}
+                                    <a href="{{ path('utilisateur_actif_inactif', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Désactiver"><i class="bi bi-person-x link-primary"></i></a>
+                                {% else %}
+                                    <a href="{{ path('utilisateur_actif_inactif', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Activer"><i class="bi bi-person-check link-primary"></i></a>
+                                {% endif %}
+                                <a href="{{ path('utilisateur_suppr', { id: utilisateur.id }) }}" class="btn btn-lg p-0" title="Supprimer"><i class="bi bi-x-circle" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}

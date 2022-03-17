@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3>Bonjour {{ email.toName }},</h3>
+        <p>
+            Suite à une action de notre part, votre compte a été
+            {% if suppr %}
+                supprimé.<br/>
+                Pour plus d'informations, n'hésitez pas à contacter un administrateur via le formulaire disponible
+                sur la page de connexion de notre site web.
+            {% else %}
+                {% if user.actif %} réactivé. Vous pouvez de nouveau créer et vous inscrire à des sorties.
+                {% else %} désactivé. Vous ne pouvez plus créer ou vous inscrire à des sorties. Il ne vous est également plus possible de vous connecter.<br/>
+                    Pour plus d'informations, n'hésitez pas à contacter un administrateur via le formulaire disponible
+                    sur la page de connexion de notre site web.
+                {% endif %}
+            {% endif %}
+        </p>
+        <p>Merci de votre compréhension.</p>
+        <p>Bien à vous, <br/> L'équipe de Sortir.com</p>
+    </div>
+{% endblock %}

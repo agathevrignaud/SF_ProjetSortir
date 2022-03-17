@@ -13,10 +13,20 @@ use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+
 
 class SortiesController extends AbstractController
 {
@@ -99,25 +109,48 @@ class SortiesController extends AbstractController
         ]);
     }
 
-    #[Route('/sortie/{id}/annuler', name: 'sortie_annuler')]
-    public function annulerSortie(Request $request, int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/sortie/annuler/{id}', name: 'sortie_annuler')]
+    public function annulerSortie(Request $request, int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $sortie = $sortieRepository->find($id);
-
-        $form = $this->createForm(SortieFormType::class, $sortie);
+        $form = $this->createFormBuilder()
+            ->add('motifAnnulation', TextareaType::class)
+            ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $sortie->setMotifAnnulation($data['motifAnnulation']);
+            $etat = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+            $sortie->setEtat($etat);
 
             $entityManager->persist($sortie);
             $entityManager->flush();
 
             $this->addFlash(
                 'notice',
-                'La sortie N°'.$sortie->getId().' a été mise à jour avec succès !'
+                'La sortie N°'.$sortie->getId().' a été annulée !'
             );
+
+            /*
+             * Notification des participants par email
+             */
+            $to = array();
+            foreach ($sortie->getSortiesParticipants() as $participant) {
+                $to[] = Address::create($participant->getPrenom() .'<'.$participant->getEmail().'>');
+            }
+            $email = (new TemplatedEmail())
+                ->from(Address::create('sortir.com <sortir@no-reply.com>'))
+                ->to(...$to)
+                ->subject('Sortie Annulée : '.$sortie->getNom())
+                ->htmlTemplate('pages/emails/annulationSortie.html.twig')
+                ->context([
+                    'sortie' => $sortie,
+                ])
+            ;
+            $mailer->send($email);
 
             return $this->redirectToRoute('sortie_details', ['id' => $sortie->getId()]);
         }

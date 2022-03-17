@@ -18,6 +18,7 @@
         </div>
     {% endfor %}
 
+    {# Affichage Sortie #}
     <div class="container" style="min-height: 80vh">
         {% if sortie is defined %}
             <h3 class="text-center py-3"> Sortie N°{{ sortie.id }} | {{ sortie.nom }}</h3>
@@ -50,8 +51,11 @@
                 {# Nom #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.nom }}</span>
+                        {% do sortieForm.nom.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -60,38 +64,50 @@
                 {# Date & Heure de début #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</span>
+                        {% do sortieForm.dateHeureDebut.setRendered() %}
                     {% else %}
-                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
                 </div>
 
                 {# Date limite d'inscription #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</span>
+                        {% do sortieForm.dateLimiteIncription.setRendered() %}
                     {% else %}
-                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
                 </div>
 
                 {# Nombre de participants #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7 ps-2'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.nbInscriptionsMax }}</span>
+                        {% do sortieForm.nbInscriptionsMax.setRendered() %}
                     {% else %}
-                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-7'}}) }}
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
                 </div>
 
                 {# Durée #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2 ps-2'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.duree }}</span>
+                        {% do sortieForm.duree.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
@@ -101,8 +117,11 @@
                 {# Description & Infos #}
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
-                    {% if sortie is defined %}
+                    {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
+                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
+                        <span class='col-lg-7 ps-2'>{{ sortie.infoSortie }}</span>
+                        {% do sortieForm.infoSortie.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -161,16 +180,10 @@
                 </div>
 
                 {# Longitude #}
-<<<<<<< HEAD
                 <div class="form-group pb-2">
                     <label for="longitude" class="col-lg-4">Longitude :</label>
                     <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
-=======
-                <label for="longitude" class="col-lg-4 pb-3">Longitude :</label>
-                <input type="text" id="longitude" name="longitude" class="col-lg-7">
-            </div>
-        </form>
 
         {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
             <h6 class="pb-1">Liste des participants inscrits :</h6>
@@ -192,36 +205,46 @@
                     {% endfor %}
                     </tbody>
                 </table>
->>>>>>> Added sign up / bail out fonctions on trips page
             </div>
 
-            {# Affichage des participants #}
-            {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
-                <h6 class="pb-1">Liste des participants inscrits :</h6>
+            <div class="row pt-3">
+                {# Affichage des participants #}
+                <div class="col-lg-6">
+                    {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
+                        <h6 class="pb-1">Liste des participants inscrits :</h6>
 
-                <div class="tableFixHead" style="height:125px;width: 45%">
-                    <table class="table table-bordered table-striped mb-0" >
-                        <thead>
-                        <tr class="table-primary text-center">
-                            <th scope="col" class="text-center">Pseudo</th>
-                            <th scope="col" class="text-center">Nom</th>
-                        </tr>
-                        </thead>
-                        <tbody class="text-center">
-                        {% for participant in sortie.sortiesParticipants %}
-                            <tr>
-                                <td>{{ participant.pseudo }}</td>
-                                <td>
-                                    <a href="{{ path("profil_details", {id: participant.id}) }}" class="link-dark">
-                                        {{ participant.prenom }} {{ participant.nom }}
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                        <div class="tableFixHead ps-2" style="height:125px;width:90%">
+                            <table class="table table-bordered table-striped mb-0" >
+                                <thead>
+                                <tr class="table-primary text-center">
+                                    <th scope="col" class="text-center">Pseudo</th>
+                                    <th scope="col" class="text-center">Nom</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for participant in sortie.sortiesParticipants %}
+                                    <tr>
+                                        <td>{{ participant.pseudo }}</td>
+                                        <td>
+                                            <a href="{{ path("profil", {id: participant.id}) }}" class="link-dark">
+                                                {{ participant.prenom }} {{ participant.nom }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+
                 </div>
-            {% endif %}
+                {# Affichage du motif d'annulation #}
+                <div class="col-lg-6">
+                    {% if sortie is defined and sortie.etat.libelle == 'Annulée' %}
+                        <h6 class="pb-1"><i class="bi bi-exclamation-triangle-fill" style="color:red"></i> Motif d'annulation :</h6>
+                        <span class="ps-2" style="width: 100%">{{ sortie.motifAnnulation }}</span>
+                    {% endif %}
+                </div>
 
             {# Affichage des boutons d'action #}
             <div class="form-group pt-4 pb-2 text-center">
@@ -233,7 +256,7 @@
                     {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
                         {% do sortieForm.enregistrer.setRendered() %}
                         {% do sortieForm.publier.setRendered() %}
-                        {% if sortie.organisateur.id == app.user.id %}
+                        {% if sortie.organisateur.id == app.user.id or 'ROLE_ADMIN' in app.user.roles() %}
                             <a class="btn btn-warning col-lg-auto" href="{{ path('sortie_annuler', {id: sortie.id}) }}">Annuler la sortie</a>
                         {% endif %}
                     {% else %}

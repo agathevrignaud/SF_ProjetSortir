@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer les villes | Sortir.com{% endblock %}
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+
+    <div class="container" style="min-height: 80vh">
+        <div class="col my-auto mx-auto text-center">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success p-2 my-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {# Modal Ajout de Ville #}
+        <div class="modal fade" id="ajoutVille" tabindex="-1" aria-labelledby="ajoutVilleLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {{ form_start(villeForm) }}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ajoutVilleLabel">Ajouter une ville</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group pb-2">
+                                {{ form_label(villeForm.nom, 'Nom de la ville *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                                {{ form_widget(villeForm.nom, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                            </div>
+                            <div class="form-group pb-2">
+                                {{ form_label(villeForm.codePostal, 'Code postal *:', {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
+                                {{ form_widget(villeForm.codePostal, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
+                                {{ form_widget(villeForm.id)}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            {{ form_widget(villeForm.ajouter) }}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
+                    {{ form_end(villeForm) }}
+                </div>
+            </div>
+        </div>
+
+        {# Tableau + Filtre #}
+        <h3 class="text-center py-3">Gérer les villes</h3>
+        <h5>Filtrer les villes</h5>
+        <div class="row">
+            <div class="pt-3 ps-3">
+                {{ form_start(villeFiltreForm) }}
+                    {{ form_label(villeFiltreForm.nom, 'Le nom contient : ', {'label_attr' : {'class' : 'align-middle'}}) }}
+                    {{ form_widget(villeFiltreForm.nom, {'attr': {'class': 'align-middle'}}) }}
+                    {{ form_widget(villeFiltreForm.rechercher, {'attr': {'class': 'align-middle btn btn-primary btn-sm'}}) }}
+                    <a href="{{ path('villes') }}" title="Réinitialiser le filtre" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise"></i></a>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ajoutVille">
+                        Ajouter une ville
+                    </button>
+                {{ form_end(villeFiltreForm) }}
+            </div>
+            <div class="row d-inline pb-2">
+                <small style="color: #999999">Seules les villes qui ne sont liées à aucun lieu peuvent être supprimées à l'aide de l'icône<i class="bi bi-x-square px-1"></i></small>
+            </div>
+        </div>
+        <div class="tableFixHead">
+            <table class="table table-hover table-bordered table-striped mb-0">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" class="table-primary text-center">Ville</th>
+                        <th scope="col" class="table-primary text-center">Code postal</th>
+                        <th scope="col" class="table-primary text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for ville in villes %}
+                        <tr>
+                            <td>{{ ville.nom }}</td>
+                            <td style="width: 20%">{{ ville.codePostal }}</td>
+                            <td style="width: 20%">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm p-0"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ajoutVille"
+                                    data-bs-ville="{{ ville.nom }}"
+                                    data-bs-cp="{{ ville.codePostal }}"
+                                    data-bs-id="{{ ville.id }}"
+                                >
+                                    <i class="bi bi-pencil-square link-primary" style="font-size: 1.25rem;"></i>
+                                </button>
+                                {% if ville.lieus|length == 0 %}
+                                    <a href="{{ path('villes_suppr', { id: ville.id }) }}" class="btn btn-sm p-0" title="Supprimer la ville">
+                                        <i class="bi bi-x-square link-primary" style="font-size: 1.25rem;"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('show.bs.modal', function (event) {
+            let button = event.relatedTarget
+
+            let ville = button.getAttribute('data-bs-ville')
+            let modalVilleValue = document.getElementById('ville_form_nom')
+            modalVilleValue.value = ville
+
+            let codePostal = button.getAttribute('data-bs-cp')
+            let modalCpValue = document.getElementById('ville_form_codePostal')
+            modalCpValue.value = codePostal
+
+            let id = button.getAttribute('data-bs-id')
+            let modalVilleId = document.getElementById('ville_form_id')
+            modalVilleId.value = id
+
+            if (id) {
+                let modalTitle = document.querySelector('.modal-title')
+                modalTitle.textContent = 'Modifier la ville'
+
+                let modalButton = document.getElementById('ville_form_ajouter')
+                modalButton.textContent = 'Modifier'
+            }
+        })
+    </script>
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
