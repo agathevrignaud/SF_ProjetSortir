@@ -184,29 +184,7 @@
                     <label for="longitude" class="col-lg-4">Longitude :</label>
                     <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
-
-        {% if sortie is defined and sortie.sortiesParticipants|length > 0%}
-            <h6 class="pb-1">Liste des participants inscrits :</h6>
-
-            <div class="tableFixHead" style="height:125px;width: 45%">
-                <table class="table table-bordered table-striped mb-0" >
-                    <thead>
-                    <tr class="table-primary text-center">
-                        <th scope="col" class="text-center">Pseudo</th>
-                        <th scope="col" class="text-center">Nom</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-center">
-                    {% for participant in sortie.sortiesParticipants %}
-                        <tr>
-                            <td>{{ participant.pseudo }}</td>
-                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
-
             <div class="row pt-3">
                 {# Affichage des participants #}
                 <div class="col-lg-6">
@@ -236,8 +214,8 @@
                             </table>
                         </div>
                     {% endif %}
-
                 </div>
+
                 {# Affichage du motif d'annulation #}
                 <div class="col-lg-6">
                     {% if sortie is defined and sortie.etat.libelle == 'Annulée' %}
