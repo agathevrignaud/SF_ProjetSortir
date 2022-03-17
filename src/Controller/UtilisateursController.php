@@ -54,6 +54,12 @@ class UtilisateursController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/utilisateurs/creer', name: 'utilisateur_creer')]
+    public function creerUtilisateur(Request $request, UserRepository $userRepository): Response
+    {
+        return $this->redirectToRoute('utilisateurs', []);
+    }
+
     #[Route('/admin/utilisateurs/{id}', name: 'utilisateur_actif_inactif')]
     public function activerUtilisateur(int $id, EntityManagerInterface $entityManager, UserRepository $userRepository, EtatRepository $etatRepository, MailerInterface $mailer): Response
     {
