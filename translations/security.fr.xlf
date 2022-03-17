@@ -80,11 +80,11 @@
             </trans-unit>
             <trans-unit id="21">
                  <source>The presented password is invalid.</source>
-                 <target>Le mot de passe n'est pas valide.</target>
+                 <target>L'adresse mail ou le mot de passe est incorrect.</target>
               </trans-unit>
             <trans-unit id="22">
                  <source>Bad credentials.</source>
-                 <target>L'adresse mail ou le mot de passe n'est pas correct</target>
+                 <target>L'adresse mail ou le mot de passe est incorrect.</target>
               </trans-unit>
               <trans-unit id="Account is disabled.">
                   <source>Bad credentials.</source>
