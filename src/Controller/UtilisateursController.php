@@ -55,7 +55,7 @@ class UtilisateursController extends AbstractController
     }
 
     #[Route('/admin/utilisateurs/{id}', name: 'utilisateur_actif_inactif')]
-    public function activerUtilisateur(int $id,EntityManagerInterface $entityManager, UserRepository $userRepository, EtatRepository $etatRepository, MailerInterface $mailer): Response
+    public function activerUtilisateur(int $id, EntityManagerInterface $entityManager, UserRepository $userRepository, EtatRepository $etatRepository, MailerInterface $mailer): Response
     {
         $user = $userRepository->find($id);
         $user->setActif(!$user->getActif());
@@ -113,6 +113,7 @@ class UtilisateursController extends AbstractController
             ->subject('Votre compte a été '.$etatCompte)
             ->htmlTemplate('pages/emails/etatCompte.html.twig')
             ->context([
+                'suppr' => false,
                 'user' => $user,
             ])
         ;
@@ -129,4 +130,71 @@ class UtilisateursController extends AbstractController
         return $this->redirectToRoute('utilisateurs', []);
     }
 
+    #[Route('/admin/utilisateurs/supprimer/{id}', name: 'utilisateur_suppr')]
+    public function supprimerUtilisateur(int $id, EntityManagerInterface $entityManager, UserRepository $userRepository, EtatRepository $etatRepository, MailerInterface $mailer): Response
+    {
+        $user = $userRepository->find($id);
+
+        /*
+         * Annulation + Suppression des sorties dont $user est organisateur
+         * & annulation de son inscription à des sorties
+         */
+        foreach ($user->getSortiesOrganisateur() as $sortie) {
+            if ( $sortie->getEtat()->getLibelle() =='Clôturée' ) {
+                $sortie->setMotifAnnulation('Annulation par action administrateur.');
+
+                /*
+                 * Notification des participants par email
+                 */
+                $to = array();
+                foreach ($sortie->getSortiesParticipants() as $participant) {
+                    $to[] = Address::create($participant->getPrenom() .'<'.$participant->getEmail().'>');
+                }
+                $email = (new TemplatedEmail())
+                    ->from(Address::create('sortir.com <sortir@no-reply.com>'))
+                    ->to(...$to)
+                    ->subject('Sortie Annulée : '.$sortie->getNom())
+                    ->htmlTemplate('pages/emails/annulationSortie.html.twig')
+                    ->context([
+                        'sortie' => $sortie,
+                    ])
+                ;
+                $mailer->send($email);
+
+                $entityManager->remove($sortie);
+                $entityManager->flush();
+            }
+        }
+        foreach ($user->getParticipant() as $sortie) {
+            $sortie->removeSortiesParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        /*
+        * L'utilisateur est prévenu par email de l'état de son compte
+        */
+
+        $email = (new TemplatedEmail())
+            ->from(Address::create('sortir.com <sortir@no-reply.com>'))
+            ->to(Address::create($user->getPrenom() .'<'.$user->getEmail().'>'))
+            ->subject('Votre compte a été supprimé')
+            ->htmlTemplate('pages/emails/etatCompte.html.twig')
+            ->context([
+                'suppr' => true,
+                'user' => $user,
+            ])
+        ;
+        $mailer->send($email);
+
+        $this->addFlash(
+            'notice',
+            "L'utilisateur ".$user->getPseudo()." a été supprimé !"
+        );
+
+        return $this->redirectToRoute('utilisateurs', []);
+    }
 }
