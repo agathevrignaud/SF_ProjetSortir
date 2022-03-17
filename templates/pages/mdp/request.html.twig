@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialiser votre mot de passe | Sortir.com{% endblock %}
+
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+    <div class="container" style="min-height: 80vh">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-4 text-center">
+                <h3 class="pt-4">Réinitialiser votre mot de passe</h3>
+                <h6 class="text-muted pb-2">Veuillez entrer l'adresse email liée à votre compte.</h6>
+                {% form_theme requestForm 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(requestForm) }}
+                    {{ form_row(requestForm.email, {
+                        label: '@',
+                        row_attr: {
+                            class: 'input-group'
+                        }
+                    }) }}
+                    <div class="row mx-0">
+                        <button class="btn btn-primary mt-3">Réinitialiser mon mot de passe</button>
+                        {% for message in app.flashes('notice') %}
+                            <div class="text-center p-2 mt-3 text-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {{ form_end(requestForm) }}
+            </div>
+        </div>
+    </div>
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}

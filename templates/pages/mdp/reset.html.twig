@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password | Sortir.com{% endblock %}
+
+{% block body %}
+    {{ include('utils/header.html.twig') }}
+    <div class="container" style="min-height: 80vh">
+        <div class="d-flex justify-content-center text-center">
+            <div class="col-lg-4 text-center">
+                <h3 class="pt-4">Réinitialiser votre mot de passe</h3>
+                <h6 class="text-muted pb-2">Veuillez entrer votre nouveau mot de passe.</h6>
+                {% form_theme resetForm 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(resetForm) }}
+                    {{ form_widget(resetForm.password) }}
+                    <div class="row mx-0">
+                        <button class="btn btn-primary">Réinitialiser le mot de passe</button>
+                    </div>
+                {{ form_end(resetForm) }}
+            </div>
+        </div>
+    </div>
+
+    {{ include('utils/footer.html.twig') }}
+{% endblock %}
