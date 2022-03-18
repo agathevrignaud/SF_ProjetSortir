@@ -131,7 +131,7 @@
                     <select name="cities" id="cities" class="col-lg-6 py-auto ps-2 align-middle">
                         <option value="">Choisir une ville...</option>
                         {% for ville in villes %}
-                            <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                            <option value="{{ ville.id }}" class="dropdown">{{ ville.nom }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -140,9 +140,6 @@
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.lieu, "Lieu :", {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
                     {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="bi bi-plus-circle-fill"></i>
-                    </button>
                 </div>
 
                 {# Adresse #}
@@ -158,15 +155,16 @@
                 {# Latitude #}
                 <div class="form-group pb-2">
                     <label for="latitude" class="col-lg-4 pb-2">Latitude :</label>
-                    <input type="text" id="latitude" name="latitude" class="col-lg-3 ps-2" value="">
+                    <label type="text" id="latitude" name="latitude" class="col-lg-3 ps-2" value="">
                 </div>
 
                 {# Longitude #}
                 <div class="form-group pb-2">
                     <label for="longitude" class="col-lg-4">Longitude :</label>
-                    <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
+                    <label type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
             </div>
+
             <div class="row pt-3">
                 {# Affichage des participants #}
                 <div class="col-lg-6">
@@ -233,6 +231,5 @@
             {{ form_end(sortieForm) }}
         </div>
     </div>
-
     {{ include('utils/footer.html.twig') }}
 {% endblock %}
