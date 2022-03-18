@@ -12,6 +12,7 @@
             {% endfor %}
         </div>
         <h3 class="text-center py-3">{{ profil.prenom }} {{ profil.nom}}</h3>
+        {% form_theme profilForm 'bootstrap_5_layout.html.twig' %}
             {{ form_start(profilForm) }}
             <div class="row pb-2">
                 <div class="col-lg-4 my-auto text-center">
@@ -22,74 +23,121 @@
                     />
                 </div>
                 <div class="col-lg-8">
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.pseudo, 'Pseudo :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.pseudo, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.pseudo.setRendered() %}
-                            <span class="col-lg-4">{{ profil.pseudo }}</span>
-                        {% endif %}
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.pseudo, 'Pseudo :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.pseudo, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                                {{ form_errors(profilForm.children.pseudo) }}
+                            {% else %}
+                                {% do profilForm.pseudo.setRendered() %}
+                                <span class="col-lg-4">{{ profil.pseudo }}</span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.prenom, 'Prénom :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.prenom, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.prenom.setRendered() %}
-                            <span class="col-lg-4">{{ profil.prenom }}</span>
-                        {% endif %}
+
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.prenom, 'Prénom :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.prenom, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                                {{ form_errors(profilForm.children.prenom) }}
+                            {% else %}
+                                {% do profilForm.prenom.setRendered() %}
+                                <span class="col-lg-4">{{ profil.prenom }}</span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.nom, 'Nom :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.nom, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.nom.setRendered() %}
-                            <span class="col-lg-4">{{ profil.nom }}</span>
-                        {% endif %}
+
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.nom, 'Nom :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.nom, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                                {{ form_errors(profilForm.children.nom) }}
+                            {% else %}
+                                {% do profilForm.nom.setRendered() %}
+                                <span class="col-lg-4">{{ profil.nom }}</span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.telephone, 'Téléphone :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.telephone, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.telephone.setRendered() %}
-                            <span class="col-lg-4">{{ profil.telephone }}</span>
-                        {% endif %}
+
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.telephone, 'Téléphone :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.telephone, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                                {{ form_errors(profilForm.children.telephone) }}
+                            {% else %}
+                                {% do profilForm.telephone.setRendered() %}
+                                <span class="col-lg-4">{{ profil.telephone }}</span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.email, 'Email :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.email, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.email.setRendered() %}
-                            <span class="col-lg-4">{{ profil.email }}</span>
-                        {% endif %}
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.email, 'Email :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.email, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                                {{ form_errors(profilForm.children.email) }}
+                            {% else %}
+                                {% do profilForm.email.setRendered() %}
+                                <span class="col-lg-4">{{ profil.email }}</span>
+                            {% endif %}
+
+                        </div>
                     </div>
                     {% if app.user.id == profil.id %}
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.plainPassword, 'Mot de passe :', {'label_attr' : {'class' : 'col-lg-2 align-middle'}}) }}
-                        {{ form_widget(profilForm.plainPassword, {'value': profil.password,'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.password.first, 'Mot de passe :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ form_widget(profilForm.password.first, {'value': profil.password,'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                            {{ form_errors(profilForm.children.password.first) }}
+                        </div>
                     </div>
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.plainPasswordConfirm, 'Confirmation :', {'label_attr' : {'class' : 'col-lg-2 align-middle'}}) }}
-                        {{ form_widget(profilForm.plainPasswordConfirm, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                    </div>
+                        <div class="row pb-2">
+                            <div class="col-lg-2">
+                                {{ form_label(profilForm.password.second, 'Confirmation :') }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form_widget(profilForm.password.second, {'value': profil.password,'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                            </div>
+                        </div>
                     {% endif %}
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.site, 'Site de rattachement :', {'label_attr' : {'class' : 'col-lg-2 align-middle'}}) }}
-                        {% if app.user.id == profil.id %}
-                            {{ form_widget(profilForm.site, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
-                        {% else %}
-                            {% do profilForm.site.setRendered() %}
-                            <span class="col-lg-4">{{ profil.site.nom }}</span>
-                        {% endif %}
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.site, 'Site de rattachement :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {% if app.user.id == profil.id %}
+                                {{ form_widget(profilForm.site, {'attr': {'class': 'col-lg-4 ps-2'}}) }}
+                            {% else %}
+                                {% do profilForm.site.setRendered() %}
+                                <span class="col-lg-4">{{ profil.site.nom }}</span>
+                            {% endif %}
+
+                        </div>
                     </div>
                     {% if app.user.id == profil.id %}
-                    <div class="form-group pb-2">
-                        {{ form_label(profilForm.photo, 'Ma photo :', {'label_attr' : {'class' : 'col-lg-2'}}) }}
-                        {{ form_widget(profilForm.photo, {'attr': {'class': 'col-lg-4'}}) }}
+                    <div class="row pb-2">
+                        <div class="col-lg-2">
+                            {{ form_label(profilForm.photo, 'Ma photo :') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ form_widget(profilForm.photo, {'attr': {'class': 'col-lg-4'}}) }}
+                        </div>
                     </div>
                     {% endif %}
                 </div>

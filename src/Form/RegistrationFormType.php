@@ -35,27 +35,14 @@ class RegistrationFormType extends AbstractType
                 'class' => 'App\Entity\Site',
                 'choice_label' => 'nom'
             ))
-            #->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-            #    'mapped' => false,
-             #   'attr' => ['autocomplete' => 'new-password']
-           # ])
-
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identique.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmez votre mot de passe'],
+                'second_options' => ['label' => 'Confirmez'],
             ])
-            #->add('plainPasswordConfirm', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-              #  'mapped' => false,
-             #   'attr' => ['autocomplete' => 'new-password']
-            #])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

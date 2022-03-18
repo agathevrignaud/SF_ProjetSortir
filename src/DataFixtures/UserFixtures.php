@@ -21,26 +21,122 @@ class UserFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
-
-        for($nbUsers = 1; $nbUsers <= 5; $nbUsers++){
+        $users =[
+            1=>[
+                'nom'=>'Admin',
+                'prenom'=>'General',
+                'pseudo'=>'adminSortir',
+                'email'=>'sortir@no-reply.fr',
+                'telephone'=>null,
+                'role'=>['ROLE_ADMIN'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 1)
+            ],
+            2=>[
+                'nom'=>'Lagarde',
+                'prenom'=>'Yves',
+                'pseudo'=>'Yvon123',
+                'email'=>'yves.lagarde@gmail.com',
+                'telephone'=>null,
+                'role'=>['ROLE_USER'],
+                'actif'=>false,
+                'site'=>$this->getReference('site_' . 1)
+            ],
+            3=>[
+                'nom'=>'Le Gall',
+                'prenom'=>'Nathalie',
+                'pseudo'=>'Nat',
+                'email'=>'nathalielegall@yaho.fr',
+                'telephone'=>'0190884287',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 2)
+            ],
+            4=>[
+                'nom'=>'Vallee',
+                'prenom'=>'Amélie',
+                'pseudo'=>'Amelie85',
+                'email'=>'amelie.vallee@orange.fr',
+                'telephone'=>'0734337751',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 2)
+            ],
+            5=>[
+                'nom'=>'François',
+                'prenom'=>'Germain',
+                'pseudo'=>'germaim78',
+                'email'=>'francois.germain@wanadoo.f',
+                'telephone'=>'0940520492',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 3)
+            ],
+            6=>[
+                'nom'=>'Faivre',
+                'prenom'=>'Léon',
+                'pseudo'=>'Leon le lion',
+                'email'=>'leon.faivre@bouygtel.fr',
+                'telephone'=>'0682127279',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 3)
+            ],
+            7=>[
+                'nom'=>'Blot',
+                'prenom'=>'Andrée',
+                'pseudo'=>'Dédé le cochon',
+                'email'=>'andree.blot@orange.fr',
+                'telephone'=>'0580057636',
+                'role'=>['ROLE_USER'],
+                'actif'=>false,
+                'site'=>$this->getReference('site_' . 4)
+            ],
+            8=>[
+                'nom'=>'Breton',
+                'prenom'=>'Agnès',
+                'pseudo'=>'la petite bretonne ',
+                'email'=>'agnes.breton@yahoo.fr',
+                'telephone'=>'0387335827',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 4)
+            ],
+            9=>[
+                'nom'=>'Lefevre',
+                'prenom'=>'Édouard',
+                'pseudo'=>'Eddy',
+                'email'=>'edouard.lefevre@orange.fr',
+                'telephone'=>'0108530198',
+                'role'=>['ROLE_USER'],
+                'actif'=>false,
+                'site'=>$this->getReference('site_' . 5)
+            ],
+            10=>[
+                'nom'=>'Roux',
+                'prenom'=>'Laurent',
+                'pseudo'=>'le petit roux',
+                'email'=>'laurent.roux@laposte.fr',
+                'telephone'=>'0486096306',
+                'role'=>['ROLE_USER'],
+                'actif'=>true,
+                'site'=>$this->getReference('site_' . 5)
+            ]
+        ];
+        foreach ($users as $key => $value){
             $user = new User();
-            $user->setNom($faker->lastName);
-            $user->setPrenom($faker->firstName);
-            $user->setEmail($faker->email);
-            $user->setPseudo($faker->title);
-            if($nbUsers===1)
-                $user->setRoles(['ROLE_ADMIN']);
-            else
-                $user->setRoles(['ROLE_USER']);
-            $user->setActif($faker->boolean());
-            $user->setTelephone('0298885566');
+            $user->setNom($value['nom']);
+            $user->setPrenom($value['prenom']);
+            $user->setEmail($value['email']);
+            $user->setPseudo($value['pseudo']);
+            $user->setRoles($value['role']);
+            $user->setActif($value['actif']);
+            $user->setTelephone($value['telephone']);
             $password = $this->hasher->hashPassword($user, 'azerty');
             $user->setPassword($password);
-            $site = $this->getReference('site_' . $faker->numberBetween(1, 3));
-            $user->setSite($site);
+            $user->setSite($value['site']);
             $manager->persist($user);
-            $this->setReference('user_'. $nbUsers,$user);
+            $this->setReference('user_'. $key,$user);
         }
         $manager->flush();
     }

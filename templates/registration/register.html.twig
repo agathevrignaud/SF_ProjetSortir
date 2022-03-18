@@ -9,61 +9,59 @@
             <div class="col">
                 {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
                 {{ form_start(registrationForm) }}
-                <div class="form-group pb-2 text-center">
-                    <label for="pseudo" class="col-lg-2">{{ form_label(registrationForm.pseudo) }} * :</label>
-                    {{ form_widget(registrationForm.pseudo) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="pseudo" class="col-2">{{ form_label(registrationForm.pseudo) }} * :</label>
+                    <div for="pseudo" class="col-6">{{ form_widget(registrationForm.pseudo) }}</div>
                     {{ form_errors(registrationForm.children.pseudo) }}
                 </div>
 
-                <div class="form-group pb-2 text-center">
-                    <label for="email" class="col-lg-2">{{ form_label(registrationForm.email) }} * :</label>
-                    {{ form_widget(registrationForm.email) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="email" class="col-2">{{ form_label(registrationForm.email) }} * :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.email) }}</div>
                     {{ form_errors(registrationForm.children.email) }}
                 </div>
 
-                <div class="form-group pb-2 text-center">
-                    <label for="prenom" class="col-lg-2">{{ form_label(registrationForm.prenom) }} * :</label>
-                    {{ form_widget(registrationForm.prenom) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="prenom" class="col-2">{{ form_label(registrationForm.prenom) }} * :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.prenom) }}</div>
                     {{ form_errors(registrationForm.children.prenom) }}
                 </div>
 
-                <div class="form-group pb-2 text-center">
-                    <label for="nom" class="col-lg-2">{{ form_label(registrationForm.nom) }} * :</label>
-                    {{ form_widget(registrationForm.nom) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="nom" class="col-2">{{ form_label(registrationForm.nom) }} * :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.nom) }}</div>
                     {{ form_errors(registrationForm.children.nom) }}
                 </div>
 
-                <div class="form-group pb-2 text-center">
-                    <label for="site" class="col-lg-2">Site de rattachement * :</label>
-                    {{ form_widget(registrationForm.site) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="site" class="col-2">Site de rattachement * :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.site) }}</div>
                     {{ form_errors(registrationForm.children.site) }}
                 </div>
-                <div class="form-group pb-2 text-center">
-                    <label for="site" class="col-lg-2">{{ form_label(registrationForm.photo) }} :</label>
-                    {{ form_widget(registrationForm.photo) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="site" class="col-2">{{ form_label(registrationForm.photo) }} :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.photo) }}</div>
                     {{ form_errors(registrationForm.children.photo) }}
                 </div>
 
-                <div class="form-group pb-2 text-center">
-                    <label for="site" class="col-lg-2">{{ form_label(registrationForm.password.first) }} :</label>
-                    {{ form_widget(registrationForm.password.first,  {
-                        'attr': {'class': 'form-control-lg'}}) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="site" class="col-2">{{ form_label(registrationForm.password.first) }} :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.password.first) }}</div>
                     {{ form_errors(registrationForm.children.password.first) }}
                 </div>
-                <div class="form-group pb-2 text-center">
-                    {{ form_label(registrationForm.password.second) }}
-                    {{ form_widget(registrationForm.password.second,  {
-                        'attr': {'class': 'form-control-lg'}}) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <label for="site" class="col-2">{{ form_label(registrationForm.password.second) }} :</label>
+                    <div class="col-6">{{ form_widget(registrationForm.password.second )}}</div>
                     {{ form_errors(registrationForm.children.password.second) }}
                 </div>
 
-                <div class="form-group py-3 text-center">
-                    {{ form_widget(registrationForm.agreeTerms) }}
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <div class="col-6">{{ form_widget(registrationForm.agreeTerms) }}</div>
                     <label>{{ form_label(registrationForm.agreeTerms) }}</label>
                 </div>
 
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary btn-lg p-3">Créer mon compte</button>
+                <div class="form-group pb-2 row justify-content-md-center">
+                    <button type="submit" class="btn btn-primary col-lg-auto p-3">Créer mon compte</button>
                     {{ form_end(registrationForm) }}
                 </div>
             </div>

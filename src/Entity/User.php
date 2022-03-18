@@ -76,13 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $prenom;
 
     #[ORM\Column(type: 'string', length: 13, nullable: true)]
-    /**
-     * @Assert\Regex(
-     *     pattern="/[a-zA-Z0-9]/",
-     *     match=false,
-     *     message="Uniquement des chiffres"
-     * )
-     */
+
     private $telephone;
 
     #[ORM\Column(type: 'boolean')]

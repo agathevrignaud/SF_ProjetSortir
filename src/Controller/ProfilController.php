@@ -8,6 +8,7 @@ use App\Form\ProfilFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -19,7 +20,7 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
 
 {
     #[Route('/profil/{id}', name: 'profil')]
-    public function afficherProfil(int $id, EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger, UserRepository $userRepository)
+    public function afficherProfil(int $id, EntityManagerInterface $entityManager, Request $request,UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger, UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -29,7 +30,6 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
         if(empty($profil)) {
             throw $this->createNotFoundException("L'utilisateur n'existe pas.");
         }
-
         /*
          * Form update du profil & du mdp
          */
@@ -59,6 +59,11 @@ class ProfilController extends AbstractController implements PasswordUpgraderInt
             }
 
             /* Mot de passe */
+            $encodedPassword = $userPasswordHasher->hashPassword($profil,
+                $form->get('password')->getData()
+            );
+
+            $profil->setPassword($encodedPassword);
 
             $entityManager->persist($profil);
             $entityManager->flush();
