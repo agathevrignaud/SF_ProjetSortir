@@ -85,13 +85,10 @@
             <trans-unit id="22">
                  <source>Bad credentials.</source>
                  <target>L'adresse mail ou le mot de passe est incorrect.</target>
-<<<<<<< HEAD
               </trans-unit>
               <trans-unit id="Account is disabled.">
                   <source>Bad credentials.</source>
                   <target>Votre compte est désactivé !</target>
-=======
->>>>>>> 7c6cb5f95f00cd9327d7e24289a52dda93eed546
               </trans-unit>
         </body>
     </file>
