@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3>Bonjour {{ email.toName }},</h3>
+        <p>
+           Votre compte sortir.com a été initialisé. Pour vous connecter, veuillez utiliser les identifiants suivants :<br/>
+           Login : {{ user.pseudo }} <br/>
+           Mot de passe : En générer un nouveau sur l'écran de login à l'aide du lien "Mot de passe oublié".
+        </p>
+        <p>En vous souhaitant de bonnes sorties !</p>
+        <p>Bien à vous, <br/> L'équipe de Sortir.com</p>
+    </div>
+{% endblock %}

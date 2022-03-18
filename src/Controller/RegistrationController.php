@@ -6,9 +6,12 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -17,7 +20,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, MailerInterface $mailer, ValidatorInterface $validator): Response
     {
         $user = new User();
         $user->setActif(true);
@@ -47,7 +50,17 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
+
+            $email = (new TemplatedEmail())
+                ->from(Address::create('sortir.com <sortir@no-reply.com>'))
+                ->to(Address::create($user->getPrenom() .'<'.$user->getEmail().'>'))
+                ->subject('Création de votre compte')
+                ->htmlTemplate('pages/emails/nouveauCompte.html.twig')
+                ->context([
+                    'user' => $user,
+                ])
+            ;
+            $mailer->send($email);
 
             return $userAuthenticator->authenticateUser(
                 $user,

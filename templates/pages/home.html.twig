@@ -109,7 +109,7 @@
                             </td>
                             <td>
                                 {% if sortie.etat.libelle == 'Créée' %}
-                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}" title="Modifier la sortie"><i class="bi bi-pencil-square"></i></a>
                                     <a href="{{ path('sortie_etat', {id: sortie.id, nouvelEtat: 'Ouverte'}) }}" title="Publier la sortie"><i class="bi bi-check-square"></i></a>
                                 {% elseif sortie.etat.libelle == 'Ouverte' %}
                                     <a href="{{ path('sortie_details', {id: sortie.id}) }}" title="Afficher la sortie"><i class="bi bi-search"></i></a>

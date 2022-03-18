@@ -53,9 +53,6 @@
                     {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.nom }}</span>
-                        {% do sortieForm.nom.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -66,9 +63,6 @@
                     {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</span>
-                        {% do sortieForm.dateHeureDebut.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
@@ -79,9 +73,6 @@
                     {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</span>
-                        {% do sortieForm.dateLimiteIncription.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
@@ -92,9 +83,6 @@
                     {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.nbInscriptionsMax }}</span>
-                        {% do sortieForm.nbInscriptionsMax.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
@@ -105,9 +93,6 @@
                     {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.duree }}</span>
-                        {% do sortieForm.duree.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
@@ -119,9 +104,6 @@
                     {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.infoSortie }}</span>
-                        {% do sortieForm.infoSortie.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -149,7 +131,7 @@
                     <select name="cities" id="cities" class="col-lg-6 py-auto ps-2 align-middle">
                         <option value="">Choisir une ville...</option>
                         {% for ville in villes %}
-                            <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                            <option value="{{ ville.id }}" class="dropdown">{{ ville.nom }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -158,9 +140,6 @@
                 <div class="form-group pb-2">
                     {{ form_label(sortieForm.lieu, "Lieu :", {'label_attr' : {'class' : 'col-lg-4 align-middle'}}) }}
                     {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-lg-6 py-auto ps-2 align-middle'}}) }}
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="bi bi-plus-circle-fill"></i>
-                    </button>
                 </div>
 
                 {# Adresse #}
@@ -176,15 +155,16 @@
                 {# Latitude #}
                 <div class="form-group pb-2">
                     <label for="latitude" class="col-lg-4 pb-2">Latitude :</label>
-                    <input type="text" id="latitude" name="latitude" class="col-lg-3 ps-2" value="">
+                    <label type="text" id="latitude" name="latitude" class="col-lg-3 ps-2" value="">
                 </div>
 
                 {# Longitude #}
                 <div class="form-group pb-2">
                     <label for="longitude" class="col-lg-4">Longitude :</label>
-                    <input type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
+                    <label type="text" id="longitude" name="longitude" class="col-lg-3 ps-2" value="">
                 </div>
             </div>
+
             <div class="row pt-3">
                 {# Affichage des participants #}
                 <div class="col-lg-6">
@@ -230,7 +210,7 @@
                     {% if sortie.etat.libelle == 'Créée' %}
                         {{ form_widget(sortieForm.enregistrer) }}
                         {{ form_widget(sortieForm.publier) }}
-                        <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
+                        <a href="{{ path('sortie_suppr', { id : sortie.id }) }}" title="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto">Supprimer la sortie</a>
                     {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
                         {% do sortieForm.enregistrer.setRendered() %}
                         {% do sortieForm.publier.setRendered() %}
@@ -251,6 +231,5 @@
             {{ form_end(sortieForm) }}
         </div>
     </div>
-
     {{ include('utils/footer.html.twig') }}
 {% endblock %}

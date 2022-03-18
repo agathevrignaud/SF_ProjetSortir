@@ -45,6 +45,18 @@ class SortiesController extends AbstractController
     public function afficherSortie(int $id, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $sortie = $sortieRepository->find($id);
+        $form = $this->createForm(SortieFormType::class, $sortie);
+        return $this->render('pages/afficherSortie.html.twig', [
+            'sortie' => $sortie,
+            'sortieForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/sortie/modifier/{id}', name: 'sortie_modifier')]
+    public function modifierSortie(int $id, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $sortie = $sortieRepository->find($id);
         $villes = $villeRepository->findAll();
@@ -62,7 +74,7 @@ class SortiesController extends AbstractController
                 'La sortie N°'.$sortie->getId().' a été mise à jour avec succès !'
             );
 
-            return $this->redirectToRoute('sortie_details', ['id' => $sortie->getId()]);
+            return $this->redirectToRoute('sortie_modifier', ['id' => $sortie->getId()]);
         }
 
         return $this->render('pages/sortie.html.twig', [
@@ -161,6 +173,21 @@ class SortiesController extends AbstractController
         ]);
     }
 
+    #[Route('/sortie/supprimer/{id}', name: 'sortie_suppr')]
+    public function supprimerSortie(int $id, EntityManagerInterface $entityManager, SortieRepository $sortieRepository) {
+        $sortie = $sortieRepository->find($id);
+
+        $entityManager->remove($sortie);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'notice',
+            'La sortie N°'.$id.' a été supprimée !'
+        );
+
+        return $this->redirectToRoute('home');
+    }
+
     #[Route('/sortie/{id}/{nouvelEtat}', name: 'sortie_etat')]
     public function updateEtatSortie(int $id, string $nouvelEtat,  SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
@@ -178,7 +205,6 @@ class SortiesController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
 
     #[Route('/sortie/{action}/{id}/{userId}', name: 'sortie_inscription_desistement')]
     public function inscription(int $id, int $userId, string $action, SortieRepository $sortieRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
@@ -208,6 +234,25 @@ class SortiesController extends AbstractController
         );
 
         return $this->redirectToRoute('home');
+    }
+
+    #[Route('/sortie/ajax', name: 'ajaxform')]
+    public function ajaxAction(Request $request) {
+        $responseArray[] = array();
+        if ($request->isXmlHttpRequest() ) {
+            $id= $_POST['id'] ;
+            $lieux = $this->getDoctrine()
+                ->getRepository(Lieu::class)
+                ->findBy(['ville' => $id]);
+
+            foreach($lieux as $lieu) {
+                $responseArray[] = array(
+                    'id' => $lieu->getId(),
+                    'nom' => $lieu-> getNom(),
+                );
+            }
+        }
+        return new JsonResponse($responseArray);
     }
 
 }
