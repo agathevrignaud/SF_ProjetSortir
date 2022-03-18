@@ -21,7 +21,7 @@ class HomeController extends AbstractController
 {
 
     #[Route('/home', name: 'home')]
-    public function listeSorties(Request $request, SortieRepository $sortieRepository): Response
+    public function afficherSorties(Request $request, SortieRepository $sortieRepository): Response
     {
         $user = $this->getUser();
         $user->getRoles();
