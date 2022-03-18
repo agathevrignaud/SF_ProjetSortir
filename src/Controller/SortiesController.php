@@ -236,4 +236,23 @@ class SortiesController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+    #[Route('/sortie/ajax', name: 'ajaxform')]
+    public function ajaxAction(Request $request) {
+        $responseArray[] = array();
+        if ($request->isXmlHttpRequest() ) {
+            $id= $_POST['id'] ;
+            $lieux = $this->getDoctrine()
+                ->getRepository(Lieu::class)
+                ->findBy(['ville' => $id]);
+
+            foreach($lieux as $lieu) {
+                $responseArray[] = array(
+                    'id' => $lieu->getId(),
+                    'nom' => $lieu-> getNom(),
+                );
+            }
+        }
+        return new JsonResponse($responseArray);
+    }
+
 }
