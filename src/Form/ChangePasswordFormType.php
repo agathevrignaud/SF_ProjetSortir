@@ -15,7 +15,6 @@ class ChangePasswordFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identiques.',
@@ -31,6 +30,5 @@ class ChangePasswordFormType extends AbstractType
     {
         $resolver->setDefaults([]);
     }
-
 }
 
