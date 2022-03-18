@@ -153,16 +153,18 @@ class SortiesController extends AbstractController
             foreach ($sortie->getSortiesParticipants() as $participant) {
                 $to[] = Address::create($participant->getPrenom() .'<'.$participant->getEmail().'>');
             }
-            $email = (new TemplatedEmail())
-                ->from(Address::create('sortir.com <sortir@no-reply.com>'))
-                ->to(...$to)
-                ->subject('Sortie Annulée : '.$sortie->getNom())
-                ->htmlTemplate('pages/emails/annulationSortie.html.twig')
-                ->context([
-                    'sortie' => $sortie,
-                ])
-            ;
-            $mailer->send($email);
+            if ( sizeof($to) > 0) {
+                $email = (new TemplatedEmail())
+                    ->from(Address::create('sortir.com <sortir@no-reply.com>'))
+                    ->to(...$to)
+                    ->subject('Sortie Annulée : '.$sortie->getNom())
+                    ->htmlTemplate('pages/emails/annulationSortie.html.twig')
+                    ->context([
+                        'sortie' => $sortie,
+                    ])
+                ;
+                $mailer->send($email);
+            }
 
             return $this->redirectToRoute('sortie_details', ['id' => $sortie->getId()]);
         }
