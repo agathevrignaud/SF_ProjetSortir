@@ -53,9 +53,6 @@
                     {{ form_label(sortieForm.nom, 'Nom de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nom, {'value': sortie.nom,'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.nom }}</span>
-                        {% do sortieForm.nom.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -66,9 +63,6 @@
                     {{ form_label(sortieForm.dateHeureDebut, 'Date et heure de la sortie :', {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'value': sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris"), 'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.dateHeureDebut|date("d/m/Y H:m", "Europe/Paris") }}</span>
-                        {% do sortieForm.dateHeureDebut.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
@@ -79,9 +73,6 @@
                     {{ form_label(sortieForm.dateLimiteIncription, "Date limite d'inscription :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'value': sortie.dateLimiteIncription|date("d/m/Y"),'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.dateLimiteIncription|date("d/m/Y") }}</span>
-                        {% do sortieForm.dateLimiteIncription.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.dateLimiteIncription, {'attr': {'class': 'col-lg-4'}}) }}
                     {% endif %}
@@ -92,9 +83,6 @@
                     {{ form_label(sortieForm.nbInscriptionsMax, "Nombre de places :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'value': sortie.nbInscriptionsMax,'attr': {'class': 'col-lg-7 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.nbInscriptionsMax }}</span>
-                        {% do sortieForm.nbInscriptionsMax.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
@@ -105,9 +93,6 @@
                     {{ form_label(sortieForm.duree, "Durée :", {'label_attr' : {'class' : 'col-lg-4'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.duree, {'value': sortie.duree,'attr': {'class': 'col-lg-2 ps-2'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.duree }}</span>
-                        {% do sortieForm.duree.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-lg-2'}}) }}
                     {% endif %}
@@ -119,9 +104,6 @@
                     {{ form_label(sortieForm.infoSortie, "Description et infos :", {'label_attr' : {'class' : 'col-lg-4 align-top'}}) }}
                     {% if sortie is defined and sortie.etat == 'Créée' %}
                         {{ form_widget(sortieForm.infoSortie, {'value': sortie.infoSortie,'attr': {'class': 'col-lg-7'}}) }}
-                    {% elseif sortie is defined and sortie.etat != 'Créée' %}
-                        <span class='col-lg-7 ps-2'>{{ sortie.infoSortie }}</span>
-                        {% do sortieForm.infoSortie.setRendered() %}
                     {% else %}
                         {{ form_widget(sortieForm.infoSortie, {'attr': {'class': 'col-lg-7'}}) }}
                     {% endif %}
@@ -230,7 +212,7 @@
                     {% if sortie.etat.libelle == 'Créée' %}
                         {{ form_widget(sortieForm.enregistrer) }}
                         {{ form_widget(sortieForm.publier) }}
-                        <input type="submit" value="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto"/>
+                        <a href="{{ path('sortie_suppr', { id : sortie.id }) }}" title="Supprimer la sortie" class="btn btn-outline-warning col-lg-auto">Supprimer la sortie</a>
                     {% elseif sortie.etat.libelle in ['Clôturée', 'Ouverte'] %}
                         {% do sortieForm.enregistrer.setRendered() %}
                         {% do sortieForm.publier.setRendered() %}
