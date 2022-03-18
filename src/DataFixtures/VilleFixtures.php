@@ -13,14 +13,43 @@ class VilleFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $villes =[
+            1=>[
+                'nom'=>'Rennes',
+                'codePostal'=>'35000'
+            ],
+            2=>[
+                'nom'=>'Angers',
+                'codePostal'=>'49100'
+            ],
+            3=>[
+                'nom'=>'Avignon',
+                'codePostal'=>'84000'
+            ],
+            4=>[
+                'nom'=>'Noyal-sur-Vilaine',
+                'codePostal'=>'35530'
+            ],
+            5=>[
+                'nom'=>'Redon',
+                'codePostal'=>'35600'
+            ],
+            6=>[
+                'nom'=>'Chantepie',
+                'codePostal'=>'35135'
+            ],
+            7=>[
+                'nom'=>'Brest',
+                'codePostal'=>'29200'
+            ]
+        ];
 
-        for($nbVille = 1; $nbVille <= 5; $nbVille++) {
+        foreach ($villes as $key => $value){
             $ville = new Ville();
-            $ville->setNom($faker->city);
-            $ville->setCodePostal($faker->numberBetween(10000, 99999));
+            $ville->setNom($value['nom']);
+            $ville->setCodePostal($value['codePostal']);
             $manager->persist($ville);
-            $this->addReference('ville_'.$nbVille,$ville);
+            $this->addReference('ville_' . $key,$ville);
         }
         $manager->flush();
     }

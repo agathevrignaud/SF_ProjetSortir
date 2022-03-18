@@ -12,16 +12,30 @@ class SiteFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $sites =[
+            1=>[
+                'nom'=>'Nantes'
+            ],
+            2=>[
+                'nom'=>'Rennes'
+            ],
+            3=>[
+                'nom'=>'Niort'
+            ],
+            4=>[
+                'nom'=>'Quimper'
+            ],
+            5=>[
+                'nom'=>'Saint-Herblain'
+            ]
+        ];
 
-        for($nbSite = 1; $nbSite <= 3; $nbSite++) {
+        foreach ($sites as $key => $value){
             $site = new Site();
-            $site->setNom($faker->city);
+            $site->setNom($value['nom']);
             $manager->persist($site);
-            $this->addReference('site_'. $nbSite,$site);
+            $this->addReference('site_' . $key,$site);
         }
         $manager->flush();
-
-
     }
 }
