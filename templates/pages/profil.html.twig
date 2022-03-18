@@ -147,8 +147,7 @@
                     {{ form_widget(profilForm.enregistrer) }}
                 {% else %}
                     {% do profilForm.photo.setRendered() %}
-                    {% do profilForm.plainPassword.setRendered() %}
-                    {% do profilForm.plainPasswordConfirm.setRendered() %}
+                    {% do profilForm.password.setRendered() %}
                     {% do profilForm.enregistrer.setRendered() %}
                 {% endif %}
                 <a class="btn btn-outline-danger col-lg-1" href="{{ path('home')}}">Retour</a>
